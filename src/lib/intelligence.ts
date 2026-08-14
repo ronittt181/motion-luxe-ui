@@ -161,6 +161,7 @@ export function getBriefing(mode: BriefingMode, ctx?: { holdings: string[]; watc
     updatedAt: stamp(),
     dataStatus: DATA_STATUS,
   };
+  if (mode === "quick") return base;
   if (mode === "detailed")
     return {
       ...base,
