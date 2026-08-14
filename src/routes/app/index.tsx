@@ -1,99 +1,157 @@
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
+import { RefreshCw, Search } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
-import { StatCard, SymbolRow } from "@/components/app/bits";
-import { PriceChart } from "@/components/viz/PriceChart";
-import { ScoreRing } from "@/components/viz/ScoreRing";
-import { MarketStrip } from "@/components/marketing/MarketStrip";
-import { SYMBOLS, series, NEWS, inr } from "@/lib/market-data";
+import { AIMarketBriefing } from "@/components/intel/AIMarketBriefing";
+import { MarketPulseMap } from "@/components/intel/MarketPulseMap";
+import { MarketCauseChain } from "@/components/intel/MarketCauseChain";
+import { RecentChangeFeed } from "@/components/intel/RecentChangeFeed";
+import { PersonalizedImpact } from "@/components/intel/PersonalizedImpact";
+import { IntelligenceFeed } from "@/components/intel/IntelligenceFeed";
+import { AskQuantPlus } from "@/components/intel/AskQuantPlus";
+import { MarketReplay } from "@/components/intel/MarketReplay";
+import { MarketSummaryStrip } from "@/components/intel/MarketSummaryStrip";
+import { DataStatusBadge, SectionHead } from "@/components/intel/primitives";
+import { greeting, marketSession, nowStamp, personalizedInsights, DATA_STATUS } from "@/lib/intelligence";
+import { getSymbol } from "@/lib/market-data";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Quant Plus workspace" },
-      { name: "description", content: "Your Quant Plus dashboard: market snapshot, virtual portfolio value, top signals and latest sentiment." },
-      { property: "og:title", content: "Dashboard — Quant Plus workspace" },
-      { property: "og:description", content: "Market snapshot, portfolio value and top AI signals at a glance." },
+      { title: "Market Intelligence Command Center — Quant Plus" },
+      { name: "description", content: "An AI market briefing for Indian equities: what is moving, why it is moving, what changed since your last visit and what it means for your virtual portfolio." },
+      { property: "og:title", content: "Market Intelligence Command Center — Quant Plus" },
+      { property: "og:description", content: "AI briefing, intelligence map, cause chain, anomalies and market replay for Indian markets." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dashboard,
 });
 
+const Section = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
+  <motion.section
+    initial={{ opacity: 0, y: 16 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
+  >
+    {children}
+  </motion.section>
+);
+
 function Dashboard() {
-  const { totalValue, cash, pnl, positions, user } = useStore();
-  const top = [...SYMBOLS].sort((a, b) => b.quantScore - a.quantScore).slice(0, 6);
-  const lead = top[0]!;
+  const { user, positions, watchlist, alerts, totalValue } = useStore();
+  const [stamp, setStamp] = useState("--:--:--");
+  const [refreshing, setRefreshing] = useState(false);
+  const [today, setToday] = useState("");
+  const [session, setSession] = useState<{ label: string; tone: "positive" | "neutral" | "negative" }>({ label: "Market status", tone: "neutral" });
+  const [hello, setHello] = useState("Welcome back");
+
+  useEffect(() => {
+    const d = new Date();
+    setStamp(nowStamp());
+    setToday(d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" }));
+    setSession(marketSession(d));
+    setHello(greeting(d));
+  }, []);
+
+  const holdings = positions.map((p) => p.symbol);
+  const finShare = useMemo(() => {
+    if (!positions.length) return 0;
+    const total = positions.reduce((a, p) => a + p.qty * (getSymbol(p.symbol)?.price ?? p.avg), 0);
+    const fin = positions
+      .filter((p) => getSymbol(p.symbol)?.sector === "Financials")
+      .reduce((a, p) => a + p.qty * (getSymbol(p.symbol)?.price ?? p.avg), 0);
+    return Math.round((fin / total) * 100);
+  }, [positions]);
+
+  const insights = personalizedInsights({
+    holdings,
+    watchlist,
+    alerts: alerts.filter((a) => a.active).length,
+    portfolioShareFin: finShare,
+  });
+  const hasSession = holdings.length > 0 || watchlist.length > 0;
+
+  const refresh = () => {
+    setRefreshing(true);
+    setTimeout(() => { setStamp(nowStamp()); setRefreshing(false); }, 700);
+  };
 
   return (
     <AppShell
-      title={`Good to see you${user ? `, ${user.name.split(" ")[0]}` : ""}`}
-      subtitle="A calm read on today's market, your virtual portfolio and the strongest signals."
+      title={`${hello}${user ? `, ${user.name.split(" ")[0]}` : ""}`}
+      subtitle="Here is what the market is telling us today."
       action={
-        <Link to="/app/trade" className="rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]">
-          Place a virtual order
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 text-xs text-muted-foreground">
+            <span className={`size-1.5 rounded-full ${session.tone === "positive" ? "bg-positive" : "bg-neutral"}`} />
+            {session.label} · {today} · Updated {stamp}
+          </span>
+          <DataStatusBadge status={DATA_STATUS} />
+          <span className="hidden rounded-full border border-border bg-surface/60 px-3 py-1.5 text-xs text-muted-foreground sm:inline">
+            Virtual ₹{Math.round(totalValue).toLocaleString("en-IN")}
+          </span>
+          <button
+            onClick={refresh}
+            aria-label="Refresh intelligence"
+            className="flex min-h-[36px] items-center gap-1.5 rounded-xl border border-border bg-surface/60 px-3 text-xs text-muted-foreground transition-colors hover:border-mint/40 hover:text-mint"
+          >
+            <RefreshCw className={`size-3.5 ${refreshing ? "animate-spin" : ""}`} /> {refreshing ? "Refreshing" : "Refresh"}
+          </button>
+          <Link to="/app/analyze" className="flex min-h-[36px] items-center gap-1.5 rounded-xl border border-border bg-surface/60 px-3 text-xs text-muted-foreground transition-colors hover:border-mint/40 hover:text-mint">
+            <Search className="size-3.5" /> Find a stock
+          </Link>
+        </div>
       }
     >
-      <div className="space-y-3">
-        <MarketStrip />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Portfolio value" value={totalValue} delay={0.05} />
-          <StatCard label="Virtual cash" value={cash} delay={0.1} />
-          <StatCard label="Unrealised P&L" value={pnl} tone={pnl >= 0 ? "positive" : "negative"} delay={0.15} />
-          <StatCard label="Open positions" value={positions.length} prefix="" decimals={0} delay={0.2} />
-        </div>
-
-        <div className="grid gap-3 lg:grid-cols-[1.6fr_1fr]">
-          <div className="panel p-5">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="font-display text-lg">{lead.symbol}</div>
-                <div className="text-xs text-muted-foreground">Highest Quant Score today · {lead.name}</div>
-              </div>
-              <Link to="/app/analyze/$symbol" params={{ symbol: lead.symbol }} className="flex items-center gap-1.5 text-xs text-mint hover:underline">
-                Analyze <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-            <PriceChart data={series(lead.symbol, 70)} positive={lead.changePct >= 0} chartKey={lead.symbol} height={260} />
-          </div>
-          <div className="panel flex flex-col items-center justify-center gap-4 p-5">
-            <ScoreRing score={lead.quantScore} />
-            <div className="text-center text-sm">
-              <div className="font-medium">{lead.direction === "up" ? "Upward bias" : "Downward bias"}</div>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                Probability {lead.probability}% · confidence {lead.confidence}%. Trend and volume agree; sentiment adds
-                a mild tilt. Informational only.
-              </p>
-            </div>
-            <div className="w-full rounded-xl border border-border bg-raised/60 p-3 text-center">
-              <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Last price</div>
-              <div className="mt-0.5 font-display text-xl tabular">{inr(lead.price)}</div>
-            </div>
+      <div className="space-y-10">
+        <div className="grid min-w-0 gap-4 xl:grid-cols-[1.35fr_1fr] [&>*]:min-w-0">
+          <AIMarketBriefing holdings={holdings} watchlist={watchlist} />
+          <div className="space-y-4">
+            <MarketPulseMap />
           </div>
         </div>
 
-        <div className="grid gap-3 lg:grid-cols-[1.4fr_1fr]">
-          <div className="panel overflow-hidden">
-            <div className="border-b border-border px-4 py-3 text-sm font-medium">Top signals</div>
-            {top.map((s, i) => <SymbolRow key={s.symbol} s={s} index={i} />)}
-          </div>
-          <div className="panel overflow-hidden">
-            <div className="border-b border-border px-4 py-3 text-sm font-medium">Market sentiment feed</div>
-            <div className="divide-y divide-border">
-              {NEWS.map((n) => (
-                <div key={n.title} className="px-4 py-3.5">
-                  <div className="flex items-center gap-2">
-                    <span className={`size-1.5 rounded-full ${n.tone === "positive" ? "bg-positive" : n.tone === "negative" ? "bg-negative" : "bg-neutral"}`} />
-                    <span className="text-xs text-muted-foreground">{n.source} · {n.time}</span>
-                  </div>
-                  <p className="mt-1.5 text-sm leading-snug">{n.title}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <Section>
+          <SectionHead eyebrow="Causal chain" title="Why the market is moving" sub="Each step is an observed change. Open a step to see the metric, its previous and current value and what it implies." />
+          <MarketCauseChain />
+        </Section>
+
+        <Section>
+          <SectionHead eyebrow="Delta feed" title="What changed since your last visit" sub="Ranked by recency across market, portfolio, watchlist and alert context." />
+          <RecentChangeFeed hasSession={hasSession} />
+        </Section>
+
+        <Section>
+          <SectionHead eyebrow="Personal" title="What this means for you" sub="Only shown when there is real activity in your virtual portfolio, watchlist or alerts." />
+          <PersonalizedImpact insights={insights} />
+        </Section>
+
+        <Section>
+          <SectionHead eyebrow="Intelligence feed" title="Opportunities, risks and anomalies" sub="Developing setups and conditions that require attention — evidence and confidence attached, never a recommendation." />
+          <IntelligenceFeed />
+        </Section>
+
+        <Section>
+          <AskQuantPlus />
+        </Section>
+
+        <Section>
+          <SectionHead eyebrow="Session" title="Market replay" sub="Scrub through the session to understand how today's state was reached." />
+          <MarketReplay />
+        </Section>
+
+        <Section>
+          <SectionHead eyebrow="Reference" title="Market and portfolio snapshot" />
+          <MarketSummaryStrip />
+          <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+            Quant Plus insights are informational. Predictions are probabilistic, and all trading activity is virtual. Market data on this page is simulated for demonstration.
+          </p>
+        </Section>
       </div>
     </AppShell>
   );
