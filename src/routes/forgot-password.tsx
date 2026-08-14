@@ -52,7 +52,7 @@ function Forgot() {
           <motion.form key="form" onSubmit={submit} className="space-y-4" exit={{ opacity: 0 }}>
             <Field label="Email"><Input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@example.com" /></Field>
             {error && <p className="rounded-lg border border-negative/30 bg-negative/10 px-3 py-2 text-xs text-negative">{error}</p>}
-            <button disabled={busy} className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground disabled:opacity-60">
+            <button disabled={busy} className="btn-primary btn-sheen w-full disabled:opacity-60">
               {busy && <Loader2 className="size-4 animate-spin" />} Send reset link
             </button>
           </motion.form>

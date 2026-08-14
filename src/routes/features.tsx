@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Activity, Bell, Brain, Briefcase, Filter, LineChart, Newspaper, Star } from "lucide-react";
 import { MarketingPage } from "@/components/marketing/MarketingPage";
 import { Reveal } from "@/components/viz/Reveal";
+import { Spotlight } from "@/components/viz/Spotlight";
+import { Magnetic } from "@/components/viz/Magnetic";
 
 export const Route = createFileRoute("/features")({
   head: () => ({
@@ -36,23 +38,32 @@ function Features() {
       <div className="grid gap-3 md:grid-cols-2">
         {features.map((f, i) => (
           <Reveal key={f.t} delay={i * 0.05} from={i % 2 ? "right" : "left"}>
-            <div className="panel panel-hover h-full p-6">
-              <f.icon className="size-5 text-mint" />
-              <div className="mt-5 font-display text-lg">{f.t}</div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.d}</p>
-            </div>
+            <Spotlight className="panel panel-hover group h-full rounded-2xl">
+              <div className="flex h-full flex-col p-7">
+                <div className="flex items-start justify-between">
+                  <span className="grid size-10 place-items-center rounded-xl border border-border bg-surface-elevated/60">
+                    <f.icon className="size-[1.05rem] text-mint" strokeWidth={1.5} />
+                  </span>
+                  <span className="font-mono text-[0.65rem] text-muted-foreground/60">0{i + 1}</span>
+                </div>
+                <div className="mt-8 font-display text-lg">{f.t}</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.d}</p>
+                <div className="mt-6 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-mint/70 to-transparent transition-transform duration-700 group-hover:scale-x-100" />
+              </div>
+            </Spotlight>
           </Reveal>
         ))}
       </div>
       <Reveal delay={0.1}>
-        <div className="panel mt-6 flex flex-wrap items-center justify-between gap-4 p-8">
-          <div>
-            <div className="font-display text-xl">Ready to look inside the workspace?</div>
+        <div className="panel hairline relative mt-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden p-8 md:p-10">
+          <div className="pointer-events-none absolute inset-0" style={{ background: "var(--gradient-hero)", opacity: 0.55 }} />
+          <div className="relative">
+            <div className="font-display text-2xl">Ready to look inside the workspace?</div>
             <p className="mt-1.5 text-sm text-muted-foreground">Open the demo environment — no setup required.</p>
           </div>
-          <Link to="/app" className="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]">
-            Launch Quant Plus
-          </Link>
+          <Magnetic className="relative">
+            <Link to="/app" className="btn-primary btn-sheen">Launch Quant Plus</Link>
+          </Magnetic>
         </div>
       </Reveal>
     </MarketingPage>
