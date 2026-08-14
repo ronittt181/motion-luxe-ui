@@ -41,6 +41,13 @@ const lenses = [
   { icon: ShieldCheck, k: "Momentum & volume", v: "Participation checks that confirm or question a move." },
 ];
 
+const factors = [
+  { k: "Technical", v: 82 },
+  { k: "Model", v: 74 },
+  { k: "Sentiment", v: 61 },
+  { k: "Momentum", v: 88 },
+];
+
 const pipeline = [
   { step: "01", k: "Ingest", v: "Prices, volumes, fundamentals and news for tracked Indian equities." },
   { step: "02", k: "Compute", v: "Indicator stack and feature engineering across every timeframe." },
@@ -166,36 +173,93 @@ function Landing() {
             transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="mt-6"
           >
-            <Spotlight className="panel hairline rounded-3xl p-4">
-              <div className="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+            <Spotlight className="panel hairline rounded-3xl">
+              {/* window chrome */}
+              <div className="flex items-center gap-3 border-b border-border/70 px-4 py-3">
+                <div className="flex gap-1.5">
+                  <span className="size-2.5 rounded-full bg-negative/60" />
+                  <span className="size-2.5 rounded-full bg-warning/60" />
+                  <span className="size-2.5 rounded-full bg-positive/60" />
+                </div>
+                <div className="ml-2 hidden items-center gap-1 sm:flex">
+                  {["Analyze", "Intelligence", "Trade"].map((t, i) => (
+                    <span
+                      key={t}
+                      className={`rounded-lg px-2.5 py-1 text-xs transition-colors ${i === 0 ? "bg-accent/70 text-foreground" : "text-muted-foreground"}`}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="ml-auto glass rounded-lg px-2.5 py-1 font-mono text-[0.68rem] tabular text-muted-foreground">
+                  NSE · 1D
+                </div>
+              </div>
+
+              <div className="grid gap-4 p-4 lg:grid-cols-[1.65fr_1fr]">
                 <div className="rounded-2xl border border-border bg-raised/50 p-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-display text-base">RELIANCE</div>
-                      <div className="text-xs text-muted-foreground">Reliance Industries · NSE</div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-display text-base">RELIANCE</span>
+                        <span className="rounded-md bg-positive/12 px-1.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-positive">
+                          Bullish
+                        </span>
+                      </div>
+                      <div className="mt-0.5 text-xs text-muted-foreground">Reliance Industries · NSE</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-display text-lg tabular">{inr(SYMBOLS[0]!.price)}</div>
-                      <div className="text-xs text-positive tabular">+1.24% today</div>
+                      <div className="font-display text-xl tabular">{inr(SYMBOLS[0]!.price)}</div>
+                      <div className="font-mono text-xs text-positive tabular">+1.24% today</div>
                     </div>
                   </div>
-                  <PriceChart data={data} height={220} chartKey="hero" />
+                  <PriceChart data={data} height={214} chartKey="hero" />
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {[["RSI", "58.4"], ["MACD", "+3.1"], ["ATR", "42.8"], ["VWAP", "2,901"]].map(([k, v]) => (
+                      <span key={k} className="rounded-lg border border-border bg-surface/60 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground">
+                        {k} <span className="text-foreground">{v}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
+
                 <div className="grid gap-4">
-                  <div className="flex items-center gap-4 rounded-2xl border border-border bg-raised/50 p-4">
-                    <ScoreRing score={78} size={116} />
-                    <div className="space-y-1.5 text-sm">
-                      <div className="font-medium">Constructive</div>
-                      <p className="text-xs leading-relaxed text-muted-foreground">
-                        Trend and volume agree; sentiment is mildly supportive. Probability 68%, confidence 74%.
-                      </p>
+                  <div className="rounded-2xl border border-border bg-raised/50 p-4">
+                    <div className="flex items-center gap-4">
+                      <ScoreRing score={78} size={104} />
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium">Constructive</div>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          Probability 68% · confidence 74%.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-2.5">
+                      {factors.map((f, i) => (
+                        <div key={f.k}>
+                          <div className="flex items-center justify-between text-[0.68rem] text-muted-foreground">
+                            <span>{f.k}</span>
+                            <span className="font-mono tabular text-foreground">{f.v}</span>
+                          </div>
+                          <div className="mt-1 h-1 overflow-hidden rounded-full bg-border">
+                            <motion.div
+                              className="h-full rounded-full"
+                              style={{ background: "var(--gradient-signal)" }}
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${f.v}%` }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 1.1, delay: 0.15 * i, ease: [0.16, 1, 0.3, 1] }}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div className="rounded-2xl border border-border bg-raised/50 p-4">
-                    <div className="text-[0.68rem] uppercase tracking-[0.18em] text-muted-foreground">Virtual portfolio</div>
+                    <div className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">Virtual portfolio</div>
                     <div className="mt-1.5 font-display text-2xl tabular">₹12,48,320</div>
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xs text-positive tabular">+₹48,320 · +4.03%</span>
+                      <span className="font-mono text-xs text-positive tabular">+₹48,320 · +4.03%</span>
                       <Sparkline data={data.slice(-24).map((d) => d.close)} />
                     </div>
                   </div>
