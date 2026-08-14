@@ -45,19 +45,19 @@ export function IntelligenceCardView({ c }: { c: IntelligenceCard }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -6 }}
       transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-      className={`rounded-2xl border bg-raised/50 p-4 ${accent}`}
+      className={`flex h-full min-w-0 flex-col rounded-2xl border bg-raised/50 p-4 transition-colors hover:border-border-active ${accent}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="text-sm font-medium">{c.title}</div>
-          <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.subtitle}</div>
-        </div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0 truncate font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.subtitle}</div>
         <DataStatusBadge status="simulated" at={c.updatedAt} />
       </div>
-      <div className="mt-3"><EvidenceList items={c.evidence} /></div>
+      <h3 className="mt-2 text-sm font-medium leading-snug">{c.title}</h3>
+      <div className="mt-3"><EvidenceList items={c.evidence} columns={1} /></div>
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{c.explanation}</p>
-      <div className="mt-3 border-t border-border/60 pt-3"><ConfidenceIndicator value={c.confidence} /></div>
-      <div className="mt-3 flex flex-wrap gap-2"><Actions c={c} /></div>
+      <div className="mt-auto pt-4">
+        <div className="border-t border-border/60 pt-3"><ConfidenceIndicator value={c.confidence} /></div>
+        <div className="mt-3 flex flex-wrap gap-2"><Actions c={c} /></div>
+      </div>
     </motion.article>
   );
 }
@@ -86,7 +86,7 @@ export function IntelligenceFeed() {
       {items.length === 0 ? (
         <EmptyState title="Nothing flagged" body="No signals in this category currently meet the evidence threshold." />
       ) : (
-        <div className="grid gap-3 lg:grid-cols-3">
+        <div className="grid items-stretch gap-3 md:grid-cols-2 xl:grid-cols-3">
           <AnimatePresence mode="popLayout">{items.map((c) => <IntelligenceCardView key={c.id} c={c} />)}</AnimatePresence>
         </div>
       )}

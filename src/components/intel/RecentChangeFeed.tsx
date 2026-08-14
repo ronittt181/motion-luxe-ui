@@ -20,11 +20,11 @@ export function MarketChangeCard({ c }: { c: MarketChange }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -6 }}
       transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-      className="rounded-xl border border-border bg-raised/50 p-4 transition-colors hover:border-border-active"
+      className="flex h-full min-w-0 flex-col rounded-xl border border-border bg-raised/50 p-4 transition-colors hover:border-border-active"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="text-sm font-medium">{c.title}</span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.scope}</span>
+      <div className="flex items-start justify-between gap-3">
+        <span className="min-w-0 text-sm font-medium leading-snug">{c.title}</span>
+        <span className="shrink-0 rounded-full border border-border bg-surface/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.scope}</span>
       </div>
       {c.previousValue !== undefined && (
         <div className="mt-2 flex items-center gap-2 tabular text-sm">
@@ -34,7 +34,7 @@ export function MarketChangeCard({ c }: { c: MarketChange }) {
         </div>
       )}
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
         <span className="text-[11px] text-muted-foreground">Changed {c.minutesAgo} minutes ago · {c.occurredAt}</span>
         {c.confidence !== undefined && <ConfidenceIndicator value={c.confidence} compact />}
       </div>
@@ -78,7 +78,7 @@ export function RecentChangeFeed({ hasSession }: { hasSession: boolean }) {
       {items.length === 0 ? (
         <EmptyState title="No changes in this view" body="Nothing has changed in this category since your last session. Market-wide changes are still listed under All Changes." />
       ) : (
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid items-stretch gap-3 md:grid-cols-2 xl:grid-cols-3">
           <AnimatePresence mode="popLayout">{items.map((c) => <MarketChangeCard key={c.id} c={c} />)}</AnimatePresence>
         </div>
       )}
