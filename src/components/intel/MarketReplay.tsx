@@ -27,7 +27,7 @@ export function MarketReplay() {
         className="mt-5 h-11 w-full cursor-pointer accent-[var(--mint)]"
       />
 
-      <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1">
+      <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-2 pt-1">
         {REPLAY.map((r, idx) => (
           <button
             key={r.id}
@@ -38,7 +38,7 @@ export function MarketReplay() {
             }`}
           >
             <span className="block tabular font-medium">{r.time}</span>
-            <span className="block max-w-[170px] truncate">{r.headline}</span>
+            <span className="block w-[150px] truncate text-muted-foreground">{r.headline}</span>
           </button>
         ))}
       </div>
