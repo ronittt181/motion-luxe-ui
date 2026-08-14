@@ -24,9 +24,9 @@ export function SiteHeader() {
       className="fixed inset-x-0 top-0 z-50 px-4 pt-3"
     >
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl border px-4 transition-all duration-500 ${
+        className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl border px-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrolled
-            ? "h-13 border-border bg-raised/85 py-2 backdrop-blur-xl"
+            ? "h-13 border-border bg-raised/70 py-2 shadow-[0_20px_50px_-30px_oklch(0_0_0/90%)] backdrop-blur-2xl backdrop-saturate-150"
             : "h-16 border-transparent bg-transparent py-3"
         }`}
       >
