@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 import { AuthLayout, Field } from "@/components/marketing/AuthLayout";
@@ -36,6 +36,10 @@ function SignupPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const router = useRouter();
+  useEffect(() => {
+    void router.preloadRoute({ to: "/app" });
+  }, [router]);
   const { login } = useStore();
   const s = useMemo(() => strength(form.password), [form.password]);
 
@@ -50,10 +54,10 @@ function SignupPage() {
     if (form.password !== form.confirm) return setError("Passwords don't match.");
     if (!agree) return setError("Please acknowledge the educational disclaimer to continue.");
     setBusy(true);
-    await new Promise((r) => setTimeout(r, 900));
     login({ name: form.name, email: form.email });
     toast.success("Account created. Welcome to Quant Plus.");
-    navigate({ to: "/app" });
+    await navigate({ to: "/app" });
+    setBusy(false);
   };
 
   return (

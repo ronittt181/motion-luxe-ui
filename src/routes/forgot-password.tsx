@@ -28,7 +28,7 @@ function Forgot() {
     setError(null);
     if (!/^\S+@\S+\.\S+$/.test(email)) return setError("Enter the email you registered with.");
     setBusy(true);
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 300));
     setBusy(false);
     setSent(true);
   };
