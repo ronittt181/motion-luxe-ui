@@ -65,7 +65,7 @@ function LoginPage() {
           </label>
           <Link to="/forgot-password" className="text-mint hover:underline">Forgot password?</Link>
         </div>
-        <button disabled={busy} className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.01] disabled:opacity-60">
+        <button disabled={busy} className="btn-primary btn-sheen w-full disabled:opacity-60">
           {busy && <Loader2 className="size-4 animate-spin" />} {busy ? "Signing in…" : "Log in"}
         </button>
         <p className="text-center text-xs text-muted-foreground">Demo authentication — no real credentials are stored.</p>
