@@ -212,6 +212,25 @@
   color: var(--mint);
 }
 
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.85rem 1.5rem;
+  box-shadow: 0 18px 40px -20px color-mix(in oklab, var(--mint) 80%, transparent);
+  transition: transform 0.5s var(--ease-out-soft), box-shadow 0.5s var(--ease-out-soft);
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 26px 54px -18px color-mix(in oklab, var(--mint) 88%, transparent);
+  }
+}
+
 @utility text-gradient {
   background: var(--gradient-signal);
   -webkit-background-clip: text;
