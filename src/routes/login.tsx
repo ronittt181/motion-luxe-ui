@@ -35,7 +35,7 @@ function LoginPage() {
     if (password.length < 6) return setError("Password must be at least 6 characters.");
     setBusy(true);
     await new Promise((r) => setTimeout(r, 850));
-    login({ name: email.split("@")[0], email });
+    login({ name: email.split("@")[0] ?? "Analyst", email });
     toast.success("Welcome back to Quant Plus.");
     navigate({ to: "/app" });
   };

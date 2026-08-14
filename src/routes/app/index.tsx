@@ -23,7 +23,7 @@ export const Route = createFileRoute("/app/")({
 function Dashboard() {
   const { totalValue, cash, pnl, positions, user } = useStore();
   const top = [...SYMBOLS].sort((a, b) => b.quantScore - a.quantScore).slice(0, 6);
-  const lead = top[0];
+  const lead = top[0]!;
 
   return (
     <AppShell

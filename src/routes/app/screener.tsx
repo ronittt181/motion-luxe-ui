@@ -31,9 +31,9 @@ function Screener() {
 
   const rows = SYMBOLS.filter(
     (s) =>
-      s.quantScore >= score[0] &&
-      s.rsi >= rsi[0] && s.rsi <= rsi[1] &&
-      s.pe <= pe[0] &&
+      s.quantScore >= score[0]! &&
+      s.rsi >= rsi[0]! && s.rsi <= rsi[1]! &&
+      s.pe <= pe[0]! &&
       (sector === "All" || s.sector === sector) &&
       (dir === "Any" || (dir === "Up" ? s.direction === "up" : s.direction === "down")),
   ).sort((a, b) => b.quantScore - a.quantScore);

@@ -119,7 +119,7 @@ function Landing() {
                   <div className="text-xs text-muted-foreground">Reliance Industries · NSE</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-display text-lg tabular">{inr(SYMBOLS[0].price)}</div>
+                  <div className="font-display text-lg tabular">{inr(SYMBOLS[0]!.price)}</div>
                   <div className="text-xs text-positive tabular">+1.24% today</div>
                 </div>
               </div>

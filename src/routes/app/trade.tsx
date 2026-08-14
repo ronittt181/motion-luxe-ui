@@ -43,7 +43,10 @@ function Trade() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const res = placeOrder({ symbol, side, qty: quantity, price: sym.price });
-    if (!res.ok) return toast.error(res.message);
+    if (!res.ok) {
+      toast.error(res.message);
+      return;
+    }
     toast.success(res.message);
     setFilled(true);
     setTimeout(() => setFilled(false), 1800);
