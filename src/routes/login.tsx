@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { AuthLayout, Field } from "@/components/marketing/AuthLayout";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,11 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    void router.preloadRoute({ to: "/app" });
+  }, [router]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +39,10 @@ function LoginPage() {
     if (!/^\S+@\S+\.\S+$/.test(email)) return setError("Enter a valid email address.");
     if (password.length < 6) return setError("Password must be at least 6 characters.");
     setBusy(true);
-    await new Promise((r) => setTimeout(r, 850));
     login({ name: email.split("@")[0] ?? "Analyst", email });
     toast.success("Welcome back to Quant Plus.");
-    navigate({ to: "/app" });
+    await navigate({ to: "/app" });
+    setBusy(false);
   };
 
   return (
