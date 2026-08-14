@@ -47,14 +47,14 @@ function Dashboard() {
   const [stamp, setStamp] = useState("--:--:--");
   const [refreshing, setRefreshing] = useState(false);
   const [today, setToday] = useState("");
-  const [session, setSession] = useState({ label: "Market status", tone: "neutral" as const });
+  const [session, setSession] = useState<{ label: string; tone: "positive" | "neutral" | "negative" }>({ label: "Market status", tone: "neutral" });
   const [hello, setHello] = useState("Welcome back");
 
   useEffect(() => {
     const d = new Date();
     setStamp(nowStamp());
     setToday(d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" }));
-    setSession(marketSession(d) as typeof session);
+    setSession(marketSession(d));
     setHello(greeting(d));
   }, []);
 

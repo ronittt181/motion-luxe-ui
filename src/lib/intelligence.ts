@@ -264,7 +264,7 @@ export function personalizedInsights(ctx: { holdings: string[]; watchlist: strin
       impact: "positive",
       relatedRoute: "/app/watchlist",
       routeLabel: "View watchlist",
-      relatedSymbol: upgraded[0],
+      relatedSymbol: upgraded[0]!,
     });
   }
   if (ctx.alerts > 0) {

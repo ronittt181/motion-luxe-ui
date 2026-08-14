@@ -77,7 +77,7 @@ export function AIMarketBriefing({ holdings, watchlist }: { holdings: string[]; 
             key={mode}
             initial={ok ? { opacity: 0, y: 8 } : false}
             animate={{ opacity: 1, y: 0 }}
-            exit={ok ? { opacity: 0, y: -6 } : undefined}
+            exit={{ opacity: 0, y: ok ? -6 : 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-3xl text-[15px] leading-relaxed text-foreground/85 md:text-base"
           >
