@@ -182,7 +182,7 @@ function Landing() {
             initial={{ opacity: 0, y: 56, scale: 0.985 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6"
+            className="relative mt-6"
           >
             <div className="pointer-events-none absolute -inset-x-10 top-24 h-64 rounded-[50%] opacity-40 blur-3xl"
               style={{ background: "radial-gradient(closest-side, color-mix(in oklab, var(--signal) 30%, transparent), transparent)" }} />
@@ -292,7 +292,9 @@ function Landing() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-mint">The signal stack</div>
+              <div className="eyebrow flex items-center gap-2.5">
+                <span className="size-1 rounded-full bg-mint" /> The signal stack
+              </div>
               <SplitText
                 as="h2"
                 text="One signal, many lenses."
@@ -367,7 +369,9 @@ function Landing() {
       {/* Pipeline */}
       <section className="px-5 py-28">
         <div ref={pipeRef} className="mx-auto max-w-6xl">
-          <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-mint">Pipeline</div>
+          <div className="eyebrow flex items-center gap-2.5">
+            <span className="size-1 rounded-full bg-mint" /> Pipeline
+          </div>
           <SplitText as="h2" text="How Quant Plus thinks." className="mt-4 block font-display text-[clamp(1.9rem,4.2vw,3.1rem)] leading-[1.04]" />
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-lg text-muted-foreground">From raw market data to an explainable Quant Score.</p>
