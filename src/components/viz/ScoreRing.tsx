@@ -30,8 +30,8 @@ export function ScoreRing({ score, size = 148, label = "Quant Score" }: { score:
         />
       </svg>
       <div className="absolute text-center">
-        <div className="font-display text-3xl font-semibold tabular">{score}</div>
-        <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
+        <div className="font-display text-3xl font-semibold tabular leading-none">{score}</div>
+        <div className="mt-1 text-[9px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
       </div>
     </div>
   );
