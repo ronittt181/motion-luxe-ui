@@ -50,10 +50,10 @@ function SignupPage() {
     if (form.password !== form.confirm) return setError("Passwords don't match.");
     if (!agree) return setError("Please acknowledge the educational disclaimer to continue.");
     setBusy(true);
-    await new Promise((r) => setTimeout(r, 900));
     login({ name: form.name, email: form.email });
     toast.success("Account created. Welcome to Quant Plus.");
-    navigate({ to: "/app" });
+    await navigate({ to: "/app" });
+    setBusy(false);
   };
 
   return (
