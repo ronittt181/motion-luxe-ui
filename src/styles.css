@@ -47,56 +47,56 @@
   --color-chart-3: var(--ai-violet);
   --color-chart-4: var(--warning);
   --color-chart-5: var(--negative);
-  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
-  --radius: 1rem;
-  --void: oklch(0.145 0.013 265);
-  --raised: oklch(0.185 0.015 264);
-  --surface: oklch(0.215 0.016 263);
-  --surface-elevated: oklch(0.255 0.018 263);
+  --radius: 0.875rem;
+  --void: oklch(0.09 0.008 265);
+  --raised: oklch(0.145 0.011 262);
+  --surface: oklch(0.175 0.013 261);
+  --surface-elevated: oklch(0.215 0.015 261);
   --background: var(--void);
-  --foreground: oklch(0.97 0.004 250);
+  --foreground: oklch(0.945 0.008 250);
   --card: var(--surface);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.22 0.017 264);
+  --popover: oklch(0.165 0.013 262);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.85 0.13 165);
-  --primary-foreground: oklch(0.2 0.03 165);
-  --secondary: oklch(0.28 0.018 263);
-  --secondary-foreground: oklch(0.97 0.004 250);
-  --muted: oklch(0.26 0.016 263);
-  --muted-foreground: oklch(0.72 0.017 253);
-  --accent: oklch(0.3 0.02 263);
-  --accent-foreground: oklch(0.97 0.004 250);
+  --primary: oklch(0.68 0.17 260);
+  --primary-foreground: oklch(0.98 0.005 250);
+  --secondary: oklch(0.23 0.015 261);
+  --secondary-foreground: oklch(0.95 0.006 250);
+  --muted: oklch(0.21 0.013 261);
+  --muted-foreground: oklch(0.68 0.014 253);
+  --accent: oklch(0.25 0.017 261);
+  --accent-foreground: oklch(0.96 0.005 250);
   --destructive: oklch(0.68 0.17 17);
   --destructive-foreground: oklch(0.16 0.014 265);
-  --border: oklch(1 0 0 / 7.5%);
-  --border-active: oklch(1 0 0 / 17%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.85 0.13 165 / 45%);
-  --mint: oklch(0.85 0.13 165);
-  --signal: oklch(0.78 0.115 255);
-  --ai-violet: oklch(0.75 0.13 295);
-  --positive: oklch(0.81 0.15 155);
-  --negative: oklch(0.7 0.17 17);
-  --warning: oklch(0.85 0.13 90);
-  --neutral: oklch(0.68 0.02 250);
+  --border: oklch(1 0 0 / 8%);
+  --border-active: oklch(0.68 0.17 260 / 38%);
+  --input: oklch(1 0 0 / 11%);
+  --ring: oklch(0.68 0.17 260 / 50%);
+  --mint: oklch(0.72 0.155 258);
+  --signal: oklch(0.82 0.1 235);
+  --ai-violet: oklch(0.72 0.14 285);
+  --positive: oklch(0.8 0.14 165);
+  --negative: oklch(0.68 0.17 20);
+  --warning: oklch(0.85 0.12 85);
+  --neutral: oklch(0.66 0.018 250);
 
   --gradient-hero: radial-gradient(
-      120% 90% at 15% 0%,
-      color-mix(in oklab, var(--mint) 16%, transparent) 0%,
-      transparent 55%
+      120% 90% at 50% 0%,
+      color-mix(in oklab, var(--mint) 14%, transparent) 0%,
+      transparent 60%
     ),
-    radial-gradient(90% 80% at 90% 10%, color-mix(in oklab, var(--ai-violet) 16%, transparent) 0%, transparent 60%);
-  --gradient-signal: linear-gradient(120deg, var(--mint), var(--signal) 55%, var(--ai-violet));
-  --shadow-soft: 0 1px 0 0 oklch(1 0 0 / 5%) inset, 0 1px 2px 0 oklch(0 0 0 / 40%), 0 24px 60px -34px oklch(0 0 0 / 85%);
-  --shadow-lift: 0 1px 0 0 oklch(1 0 0 / 9%) inset, 0 2px 4px 0 oklch(0 0 0 / 45%),
-    0 40px 80px -32px oklch(0 0 0 / 92%), 0 0 0 1px oklch(1 0 0 / 4%);
+    radial-gradient(90% 80% at 85% 8%, color-mix(in oklab, var(--signal) 10%, transparent) 0%, transparent 62%);
+  --gradient-signal: linear-gradient(120deg, var(--signal), var(--mint) 55%, var(--ai-violet));
+  --shadow-soft: 0 1px 0 0 oklch(1 0 0 / 4%) inset, 0 1px 2px 0 oklch(0 0 0 / 55%), 0 24px 60px -34px oklch(0 0 0 / 95%);
+  --shadow-lift: 0 1px 0 0 oklch(1 0 0 / 8%) inset, 0 2px 4px 0 oklch(0 0 0 / 55%),
+    0 40px 90px -32px oklch(0 0 0 / 98%), 0 0 0 1px color-mix(in oklab, var(--mint) 22%, transparent);
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -115,7 +115,7 @@
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.035em;
+    letter-spacing: -0.045em;
     font-weight: 500;
     text-wrap: balance;
   }
