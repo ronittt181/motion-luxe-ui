@@ -18,7 +18,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAlertsRouteImport } from './routes/app/alerts'
+import { Route as AppIntelligenceRouteImport } from './routes/app/intelligence'
 import { Route as AppMarketsRouteImport } from './routes/app/markets'
+import { Route as AppScreenerRouteImport } from './routes/app/screener'
 import { Route as AppWatchlistRouteImport } from './routes/app/watchlist'
 import { Route as AppAnalyzeIndexRouteImport } from './routes/app/analyze/index'
 import { Route as AppAnalyzeSymbolRouteImport } from './routes/app/analyze/$symbol'
@@ -68,9 +70,19 @@ const AppAlertsRoute = AppAlertsRouteImport.update({
   path: '/app/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIntelligenceRoute = AppIntelligenceRouteImport.update({
+  id: '/app/intelligence',
+  path: '/app/intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppMarketsRoute = AppMarketsRouteImport.update({
   id: '/app/markets',
   path: '/app/markets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppScreenerRoute = AppScreenerRouteImport.update({
+  id: '/app/screener',
+  path: '/app/screener',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppWatchlistRoute = AppWatchlistRouteImport.update({
@@ -98,7 +110,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/screener': typeof AppScreenerRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -113,7 +127,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/screener': typeof AppScreenerRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -129,7 +145,9 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/alerts': typeof AppAlertsRoute
+  '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/screener': typeof AppScreenerRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -146,7 +164,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/app/alerts'
+    | '/app/intelligence'
     | '/app/markets'
+    | '/app/screener'
     | '/app/watchlist'
     | '/app/'
     | '/app/analyze/$symbol'
@@ -161,7 +181,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/app/alerts'
+    | '/app/intelligence'
     | '/app/markets'
+    | '/app/screener'
     | '/app/watchlist'
     | '/app'
     | '/app/analyze/$symbol'
@@ -176,7 +198,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/app/alerts'
+    | '/app/intelligence'
     | '/app/markets'
+    | '/app/screener'
     | '/app/watchlist'
     | '/app/'
     | '/app/analyze/$symbol'
@@ -192,7 +216,9 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   AppAlertsRoute: typeof AppAlertsRoute
+  AppIntelligenceRoute: typeof AppIntelligenceRoute
   AppMarketsRoute: typeof AppMarketsRoute
+  AppScreenerRoute: typeof AppScreenerRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAnalyzeSymbolRoute: typeof AppAnalyzeSymbolRoute
@@ -264,11 +290,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/intelligence': {
+      id: '/app/intelligence'
+      path: '/app/intelligence'
+      fullPath: '/app/intelligence'
+      preLoaderRoute: typeof AppIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/markets': {
       id: '/app/markets'
       path: '/app/markets'
       fullPath: '/app/markets'
       preLoaderRoute: typeof AppMarketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/screener': {
+      id: '/app/screener'
+      path: '/app/screener'
+      fullPath: '/app/screener'
+      preLoaderRoute: typeof AppScreenerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/watchlist': {
@@ -304,7 +344,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   AppAlertsRoute: AppAlertsRoute,
+  AppIntelligenceRoute: AppIntelligenceRoute,
   AppMarketsRoute: AppMarketsRoute,
+  AppScreenerRoute: AppScreenerRoute,
   AppWatchlistRoute: AppWatchlistRoute,
   AppIndexRoute: AppIndexRoute,
   AppAnalyzeSymbolRoute: AppAnalyzeSymbolRoute,
