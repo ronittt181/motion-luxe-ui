@@ -294,7 +294,7 @@ function Landing() {
               <Reveal
                 key={l.k}
                 delay={i * 0.07}
-                className={i === 0 ? "md:col-span-3 md:row-span-2" : i < 3 ? "md:col-span-3" : "md:col-span-2"}
+                className={i === 0 ? "md:col-span-3 md:row-span-2" : "md:col-span-3"}
               >
                 <Spotlight className="panel panel-hover h-full rounded-2xl">
                   <div className={`flex h-full flex-col p-6 ${i === 0 ? "md:p-8" : ""}`}>
@@ -304,7 +304,7 @@ function Landing() {
                       </span>
                       <span className="font-mono text-[0.65rem] text-muted-foreground/70">0{i + 1}</span>
                     </div>
-                    <div className={`mt-auto pt-10 font-display ${i === 0 ? "text-2xl md:text-3xl" : "text-lg"}`}>{l.k}</div>
+                    <div className={`mt-auto font-display ${i === 0 ? "pt-8 text-2xl md:text-3xl" : "pt-12 text-lg"}`}>{l.k}</div>
                     <p className={`mt-2 text-sm leading-relaxed text-muted-foreground ${i === 0 ? "max-w-sm" : ""}`}>{l.v}</p>
                     {i === 0 && (
                       <div className="mt-7 grid grid-cols-3 gap-3">
