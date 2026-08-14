@@ -34,7 +34,7 @@ export function MarketChangeCard({ c }: { c: MarketChange }) {
         </div>
       )}
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3 [margin-top:auto]">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
         <span className="text-[11px] text-muted-foreground">Changed {c.minutesAgo} minutes ago · {c.occurredAt}</span>
         {c.confidence !== undefined && <ConfidenceIndicator value={c.confidence} compact />}
       </div>
