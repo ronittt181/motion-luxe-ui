@@ -13,6 +13,13 @@ import { ScoreRing } from "@/components/viz/ScoreRing";
 import { PriceChart } from "@/components/viz/PriceChart";
 import { Sparkline } from "@/components/viz/Sparkline";
 import { SYMBOLS, series, inr } from "@/lib/market-data";
+import { ScrollProgress } from "@/components/viz/ScrollProgress";
+import { TickerBand } from "@/components/marketing/TickerBand";
+import { StatsBand } from "@/components/marketing/StatsBand";
+import { StickyShowcase } from "@/components/marketing/StickyShowcase";
+import { Voices } from "@/components/marketing/Voices";
+import { FaqSection } from "@/components/marketing/FaqSection";
+import { FinalCta } from "@/components/marketing/FinalCta";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -109,6 +116,7 @@ function Landing() {
 
   return (
     <div className="noise min-h-screen bg-void">
+      <ScrollProgress />
       <SiteHeader />
 
       <section ref={heroRef} className="relative overflow-hidden px-5 pb-20 pt-36 md:pt-44">
@@ -270,6 +278,10 @@ function Landing() {
         </motion.div>
       </section>
 
+      <TickerBand />
+
+      <StatsBand />
+
       {/* Lenses */}
       <section className="relative px-5 py-28">
         <div className="mx-auto max-w-6xl">
@@ -345,6 +357,8 @@ function Landing() {
         </div>
       </section>
 
+      <StickyShowcase />
+
       {/* Pipeline */}
       <section className="px-5 py-28">
         <div ref={pipeRef} className="mx-auto max-w-6xl">
@@ -418,6 +432,12 @@ function Landing() {
           </Reveal>
         </div>
       </section>
+
+      <Voices />
+
+      <FaqSection />
+
+      <FinalCta />
 
       <SiteFooter />
     </div>

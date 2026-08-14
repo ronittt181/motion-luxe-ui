@@ -29,9 +29,16 @@ export function ScoreRing({ score, size = 148, label = "Quant Score" }: { score:
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         />
       </svg>
-      <div className="absolute text-center">
-        <div className="font-display text-3xl font-semibold tabular leading-none">{score}</div>
-        <div className="mt-1 text-[9px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
+      <div className="absolute text-center leading-none" style={{ width: size - 26 }}>
+        <div
+          className="font-display font-semibold tabular leading-none"
+          style={{ fontSize: Math.max(16, size * 0.24) }}
+        >
+          {score}
+        </div>
+        {size >= 110 && (
+          <div className="mt-1 text-[9px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
+        )}
       </div>
     </div>
   );
