@@ -356,7 +356,7 @@ function Landing() {
 
           <div className="relative mt-16">
             <div className="absolute inset-x-0 top-[7px] h-px bg-border" />
-            <div className="pipe-line absolute inset-x-0 top-[7px] h-px bg-gradient-to-r from-mint via-signal to-ai-violet" />
+            <div className="pipe-line absolute inset-x-0 top-[7px] h-px bg-gradient-to-r from-mint via-signal to-violet" />
             <div className="grid gap-6 md:grid-cols-4">
               {pipeline.map((p, i) => (
                 <div key={p.step} className="pipe-card group relative pt-10 opacity-0">
