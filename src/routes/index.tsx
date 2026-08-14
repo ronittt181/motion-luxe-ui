@@ -124,6 +124,7 @@ function Landing() {
         <div className="pointer-events-none absolute -top-40 left-1/2 aurora size-[42rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
           style={{ background: "conic-gradient(from 210deg, color-mix(in oklab, var(--mint) 55%, transparent), color-mix(in oklab, var(--ai-violet) 45%, transparent), transparent 70%)" }} />
         <div className="pointer-events-none absolute inset-0 grid-lines opacity-40 [mask-image:radial-gradient(70%_55%_at_50%_0%,black,transparent)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_10%,transparent_40%,var(--void)_100%)]" />
 
         <motion.div style={{ y, opacity }} className="relative mx-auto max-w-6xl">
           <motion.div initial="hidden" animate="show" variants={stagger}>
@@ -133,6 +134,8 @@ function Landing() {
                 <span className="relative inline-flex size-1.5 rounded-full bg-mint" />
               </span>
               AI-powered market intelligence for Indian markets
+              <span className="mx-0.5 h-3 w-px bg-border" />
+              <span className="font-mono text-[0.65rem] tracking-normal text-foreground/80">NSE · BSE</span>
             </motion.div>
 
             <h1 className="mt-7 max-w-4xl font-display text-[clamp(2.7rem,7.4vw,5.4rem)] font-medium leading-[0.98]">
@@ -148,14 +151,14 @@ function Landing() {
               </span>
             </h1>
 
-            <motion.p variants={item} className="mt-7 max-w-lg text-[0.98rem] leading-relaxed text-muted-foreground">
+            <motion.p variants={item} className="mt-7 max-w-lg text-[1.02rem] leading-[1.7] text-muted-foreground">
               Technical analysis, AI prediction, news sentiment, quantitative screening and native virtual trading —
               one calm workspace for NSE and BSE names.
             </motion.p>
 
             <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">
               <Magnetic>
-                <Link to="/app" className="btn-sheen group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground">
+                <Link to="/app" className="btn-sheen group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground shadow-[0_18px_40px_-18px_color-mix(in_oklab,var(--mint)_75%,transparent)] transition-shadow duration-500 hover:shadow-[0_24px_54px_-16px_color-mix(in_oklab,var(--mint)_85%,transparent)]">
                   Launch Quant Plus
                   <ArrowRight className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
                 </Link>
@@ -181,7 +184,9 @@ function Landing() {
             transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="mt-6"
           >
-            <Spotlight className="panel hairline rounded-3xl">
+            <div className="pointer-events-none absolute -inset-x-10 top-24 h-64 rounded-[50%] opacity-40 blur-3xl"
+              style={{ background: "radial-gradient(closest-side, color-mix(in oklab, var(--signal) 30%, transparent), transparent)" }} />
+            <Spotlight className="panel hairline relative rounded-3xl ring-1 ring-white/5">
               {/* window chrome */}
               <div className="flex items-center gap-3 border-b border-border/70 px-4 py-3">
                 <div className="flex gap-1.5">
