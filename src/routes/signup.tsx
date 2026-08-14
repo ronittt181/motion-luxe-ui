@@ -86,7 +86,7 @@ function SignupPage() {
           I understand Quant Plus insights are informational and all trading inside the product is virtual.
         </label>
         {error && <p className="rounded-lg border border-negative/30 bg-negative/10 px-3 py-2 text-xs text-negative">{error}</p>}
-        <button disabled={busy} className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.01] disabled:opacity-60">
+        <button disabled={busy} className="btn-primary btn-sheen w-full disabled:opacity-60">
           {busy && <Loader2 className="size-4 animate-spin" />} {busy ? "Creating account…" : "Create account"}
         </button>
       </form>

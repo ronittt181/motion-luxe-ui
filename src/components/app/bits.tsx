@@ -15,13 +15,15 @@ export function StatCard({ label, value, sub, tone = "default", delay = 0, decim
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="panel p-5"
+      className="panel panel-hover group relative overflow-hidden p-5"
     >
-      <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className={`mt-2 font-display text-2xl font-semibold ${tone === "positive" ? "text-positive" : tone === "negative" ? "text-negative" : ""}`}>
+      <div className="pointer-events-none absolute -right-10 -top-10 size-24 rounded-full opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-40"
+        style={{ background: "var(--gradient-signal)" }} />
+      <div className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">{label}</div>
+      <div className={`mt-2.5 font-display text-2xl tabular ${tone === "positive" ? "text-positive" : tone === "negative" ? "text-negative" : ""}`}>
         <AnimatedNumber value={value} prefix={prefix} decimals={decimals} />
       </div>
-      {sub && <div className="mt-1.5 text-xs text-muted-foreground">{sub}</div>}
+      {sub && <div className="mt-2 text-xs text-muted-foreground">{sub}</div>}
     </motion.div>
   );
 }
@@ -40,8 +42,9 @@ export function SymbolRow({ s, index = 0 }: { s: Symbol; index?: number }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.035, 0.4) }}
-      className="group flex items-center gap-4 border-b border-border px-4 py-3.5 transition-colors last:border-0 hover:bg-accent/40"
+      className="group relative flex items-center gap-4 border-b border-border px-4 py-3.5 transition-colors duration-300 last:border-0 hover:bg-accent/40"
     >
+      <span className="absolute inset-y-0 left-0 w-px origin-top scale-y-0 bg-mint transition-transform duration-500 group-hover:scale-y-100" />
       <button onClick={() => toggleWatch(s.symbol)} aria-label="Toggle watchlist" className="shrink-0">
         <Star className={`size-4 transition-all active:scale-90 ${watched ? "fill-warning text-warning" : "text-muted-foreground hover:text-foreground"}`} />
       </button>
