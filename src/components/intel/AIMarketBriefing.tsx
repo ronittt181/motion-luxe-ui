@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, ShieldAlert, Sparkles, Zap } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { BRIEFING_MODES, BIAS_LABEL, getBriefing, type BriefingMode } from "@/lib/intelligence";
+import { BRIEFING_MODES, BIAS_LABEL, getBriefing, nowStamp, type BriefingMode } from "@/lib/intelligence";
 import { ConfidenceIndicator, DataStatusBadge, useMotionOk } from "./primitives";
 
 export function BriefingModeSelector({ mode, onChange }: { mode: BriefingMode; onChange: (m: BriefingMode) => void }) {
@@ -32,6 +32,8 @@ export function BriefingModeSelector({ mode, onChange }: { mode: BriefingMode; o
 export function AIMarketBriefing({ holdings, watchlist }: { holdings: string[]; watchlist: string[] }) {
   const [mode, setMode] = useState<BriefingMode>("quick");
   const ok = useMotionOk();
+  const [at, setAt] = useState("--:--:--");
+  useEffect(() => setAt(nowStamp()), []);
   const b = useMemo(() => getBriefing(mode, { holdings, watchlist }), [mode, holdings, watchlist]);
 
   return (
@@ -64,7 +66,7 @@ export function AIMarketBriefing({ holdings, watchlist }: { holdings: string[]; 
           </h2>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <DataStatusBadge status={b.dataStatus} at={b.updatedAt} />
+          <DataStatusBadge status={b.dataStatus} at={at} />
           <ConfidenceIndicator value={b.confidence} />
         </div>
       </div>
