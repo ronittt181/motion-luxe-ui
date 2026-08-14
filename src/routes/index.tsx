@@ -41,6 +41,13 @@ const lenses = [
   { icon: ShieldCheck, k: "Momentum & volume", v: "Participation checks that confirm or question a move." },
 ];
 
+const factors = [
+  { k: "Technical", v: 82 },
+  { k: "Model", v: 74 },
+  { k: "Sentiment", v: 61 },
+  { k: "Momentum", v: 88 },
+];
+
 const pipeline = [
   { step: "01", k: "Ingest", v: "Prices, volumes, fundamentals and news for tracked Indian equities." },
   { step: "02", k: "Compute", v: "Indicator stack and feature engineering across every timeframe." },
@@ -166,36 +173,93 @@ function Landing() {
             transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="mt-6"
           >
-            <Spotlight className="panel hairline rounded-3xl p-4">
-              <div className="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
-                <div className="rounded-2xl border border-border bg-raised/50 p-4">
-                  <div className="flex items-center justify-between">
+            <Spotlight className="panel hairline rounded-3xl">
+              {/* window chrome */}
+              <div className="flex items-center gap-3 border-b border-border/70 px-4 py-3">
+                <div className="flex gap-1.5">
+                  <span className="size-2.5 rounded-full bg-negative/60" />
+                  <span className="size-2.5 rounded-full bg-warning/60" />
+                  <span className="size-2.5 rounded-full bg-positive/60" />
+                </div>
+                <div className="ml-2 hidden items-center gap-1 sm:flex">
+                  {["Analyze", "Intelligence", "Trade"].map((t, i) => (
+                    <span
+                      key={t}
+                      className={`rounded-lg px-2.5 py-1 text-xs transition-colors ${i === 0 ? "bg-accent/70 text-foreground" : "text-muted-foreground"}`}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="ml-auto glass rounded-lg px-2.5 py-1 font-mono text-[0.68rem] tabular text-muted-foreground">
+                  NSE · 1D
+                </div>
+              </div>
+
+              <div className="grid gap-4 p-4 lg:grid-cols-[1.65fr_1fr]">
+                <div className="flex flex-col rounded-2xl border border-border bg-raised/50 p-4">
+                  <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-display text-base">RELIANCE</div>
-                      <div className="text-xs text-muted-foreground">Reliance Industries · NSE</div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-display text-base">RELIANCE</span>
+                        <span className="rounded-md bg-positive/12 px-1.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-positive">
+                          Bullish
+                        </span>
+                      </div>
+                      <div className="mt-0.5 text-xs text-muted-foreground">Reliance Industries · NSE</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-display text-lg tabular">{inr(SYMBOLS[0]!.price)}</div>
-                      <div className="text-xs text-positive tabular">+1.24% today</div>
+                      <div className="font-display text-xl tabular">{inr(SYMBOLS[0]!.price)}</div>
+                      <div className="font-mono text-xs text-positive tabular">+1.24% today</div>
                     </div>
                   </div>
-                  <PriceChart data={data} height={220} chartKey="hero" />
+                  <PriceChart data={data} height={214} chartKey="hero" />
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+                    {[["RSI", "58.4"], ["MACD", "+3.1"], ["ATR", "42.8"], ["VWAP", "2,901"]].map(([k, v]) => (
+                      <span key={k} className="rounded-lg border border-border bg-surface/60 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground">
+                        {k} <span className="text-foreground">{v}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
+
                 <div className="grid gap-4">
-                  <div className="flex items-center gap-4 rounded-2xl border border-border bg-raised/50 p-4">
-                    <ScoreRing score={78} size={116} />
-                    <div className="space-y-1.5 text-sm">
-                      <div className="font-medium">Constructive</div>
-                      <p className="text-xs leading-relaxed text-muted-foreground">
-                        Trend and volume agree; sentiment is mildly supportive. Probability 68%, confidence 74%.
-                      </p>
+                  <div className="rounded-2xl border border-border bg-raised/50 p-4">
+                    <div className="flex items-center gap-4">
+                      <ScoreRing score={78} size={104} label="Score" />
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium">Constructive</div>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          Probability 68% · confidence 74%.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-2.5">
+                      {factors.map((f, i) => (
+                        <div key={f.k}>
+                          <div className="flex items-center justify-between text-[0.68rem] text-muted-foreground">
+                            <span>{f.k}</span>
+                            <span className="font-mono tabular text-foreground">{f.v}</span>
+                          </div>
+                          <div className="mt-1 h-1 overflow-hidden rounded-full bg-border">
+                            <motion.div
+                              className="h-full rounded-full"
+                              style={{ background: "var(--gradient-signal)" }}
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${f.v}%` }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 1.1, delay: 0.15 * i, ease: [0.16, 1, 0.3, 1] }}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div className="rounded-2xl border border-border bg-raised/50 p-4">
-                    <div className="text-[0.68rem] uppercase tracking-[0.18em] text-muted-foreground">Virtual portfolio</div>
+                    <div className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">Virtual portfolio</div>
                     <div className="mt-1.5 font-display text-2xl tabular">₹12,48,320</div>
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xs text-positive tabular">+₹48,320 · +4.03%</span>
+                      <span className="font-mono text-xs text-positive tabular">+₹48,320 · +4.03%</span>
                       <Sparkline data={data.slice(-24).map((d) => d.close)} />
                     </div>
                   </div>
@@ -209,24 +273,50 @@ function Landing() {
       {/* Lenses */}
       <section className="relative px-5 py-28">
         <div className="mx-auto max-w-6xl">
-          <SplitText
-            as="h2"
-            text="One signal, many lenses."
-            className="block max-w-2xl font-display text-[clamp(1.9rem,4.2vw,3rem)] leading-[1.06]"
-          />
-          <Reveal delay={0.1}>
-            <p className="mt-4 max-w-lg text-muted-foreground">
-              A single score is only useful if you can take it apart. Quant Plus shows every lens it looked through.
-            </p>
-          </Reveal>
-          <div className="mt-12 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-mint">The signal stack</div>
+              <SplitText
+                as="h2"
+                text="One signal, many lenses."
+                className="mt-4 block max-w-2xl font-display text-[clamp(1.9rem,4.2vw,3.1rem)] leading-[1.04]"
+              />
+            </div>
+            <Reveal delay={0.1}>
+              <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-right">
+                A single score is only useful if you can take it apart. Quant Plus shows every lens it looked through.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="mt-12 grid gap-3 md:grid-cols-6">
             {lenses.map((l, i) => (
-              <Reveal key={l.k} delay={i * 0.07} from="up">
+              <Reveal
+                key={l.k}
+                delay={i * 0.07}
+                className={i === 0 ? "md:col-span-3 md:row-span-2" : "md:col-span-3"}
+              >
                 <Spotlight className="panel panel-hover h-full rounded-2xl">
-                  <div className="p-6">
-                    <l.icon className="size-5 text-mint" strokeWidth={1.5} />
-                    <div className="mt-6 font-display text-lg">{l.k}</div>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{l.v}</p>
+                  <div className={`flex h-full flex-col p-6 ${i === 0 ? "md:p-8" : ""}`}>
+                    <div className="flex items-start justify-between">
+                      <span className="grid size-10 place-items-center rounded-xl border border-border bg-surface-elevated/60">
+                        <l.icon className="size-[1.05rem] text-mint" strokeWidth={1.5} />
+                      </span>
+                      <span className="font-mono text-[0.65rem] text-muted-foreground/70">0{i + 1}</span>
+                    </div>
+                    <div className={`mt-auto font-display ${i === 0 ? "pt-8 text-2xl md:text-3xl" : "pt-12 text-lg"}`}>{l.k}</div>
+                    <p className={`mt-2 text-sm leading-relaxed text-muted-foreground ${i === 0 ? "max-w-sm" : ""}`}>{l.v}</p>
+                    {i === 0 && (
+                      <div className="mt-7 grid grid-cols-3 gap-3">
+                        {[["Trend", "Up"], ["Vol", "Low"], ["Bias", "Long"]].map(([k, v]) => (
+                          <div key={k} className="rounded-xl border border-border bg-raised/50 px-3 py-2.5">
+                            <div className="text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">{k}</div>
+                            <div className="mt-0.5 font-display text-sm">{v}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-6 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-mint/70 to-transparent transition-transform duration-700 group-hover:scale-x-100" />
                   </div>
                 </Spotlight>
               </Reveal>
@@ -258,19 +348,31 @@ function Landing() {
       {/* Pipeline */}
       <section className="px-5 py-28">
         <div ref={pipeRef} className="mx-auto max-w-6xl">
-          <SplitText as="h2" text="How Quant Plus thinks." className="block font-display text-[clamp(1.9rem,4.2vw,3rem)] leading-[1.06]" />
+          <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-mint">Pipeline</div>
+          <SplitText as="h2" text="How Quant Plus thinks." className="mt-4 block font-display text-[clamp(1.9rem,4.2vw,3.1rem)] leading-[1.04]" />
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-lg text-muted-foreground">From raw market data to an explainable Quant Score.</p>
           </Reveal>
-          <div className="pipe-line mt-12 h-px w-full bg-gradient-to-r from-mint/50 via-signal/40 to-transparent" />
-          <div className="mt-6 grid gap-3 md:grid-cols-4">
-            {pipeline.map((p) => (
-              <div key={p.step} className="pipe-card panel h-full rounded-2xl p-6 opacity-0">
-                <div className="font-mono text-xs tracking-widest text-mint">{p.step}</div>
-                <div className="mt-4 font-display text-lg">{p.k}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.v}</p>
-              </div>
-            ))}
+
+          <div className="relative mt-16">
+            <div className="absolute inset-x-0 top-[7px] h-px bg-border" />
+            <div className="pipe-line absolute inset-x-0 top-[7px] h-px bg-gradient-to-r from-mint via-signal to-violet" />
+            <div className="grid gap-6 md:grid-cols-4">
+              {pipeline.map((p, i) => (
+                <div key={p.step} className="pipe-card group relative pt-10 opacity-0">
+                  <span className="absolute top-0 left-0 grid size-[15px] place-items-center rounded-full border border-border bg-void">
+                    <span
+                      className="size-[7px] rounded-full transition-transform duration-500 group-hover:scale-125"
+                      style={{ background: "var(--gradient-signal)" }}
+                    />
+                  </span>
+                  <div className="font-mono text-xs tracking-[0.2em] text-muted-foreground/80">{p.step}</div>
+                  <div className="mt-3 font-display text-xl">{p.k}</div>
+                  <p className="mt-2 max-w-[19rem] text-sm leading-relaxed text-muted-foreground">{p.v}</p>
+                  <div className="mt-5 h-px w-8 bg-mint/60 transition-all duration-700 group-hover:w-full group-hover:bg-mint/25" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
