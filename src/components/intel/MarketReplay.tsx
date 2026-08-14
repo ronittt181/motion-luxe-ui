@@ -27,7 +27,7 @@ export function MarketReplay() {
         className="mt-5 h-11 w-full cursor-pointer accent-[var(--mint)]"
       />
 
-      <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-2 pt-1">
+      <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-2 pt-1 edge-fade">
         {REPLAY.map((r, idx) => (
           <button
             key={r.id}

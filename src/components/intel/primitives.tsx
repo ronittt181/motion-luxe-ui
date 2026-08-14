@@ -14,7 +14,7 @@ export function DataStatusBadge({ status, at }: { status: DataStatus; at?: strin
   };
   const label = status === "simulated" ? "Simulated" : status === "live" ? "Live" : "Delayed";
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] ${map[status]}`}>
+    <span className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] ${map[status]}`}>
       <span className="size-1.5 rounded-full bg-current" />
       {label}
       {at && <span className="text-muted-foreground normal-case tracking-normal">· {at}</span>}

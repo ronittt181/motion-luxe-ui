@@ -48,7 +48,7 @@ export function IntelligenceCardView({ c }: { c: IntelligenceCard }) {
       className={`flex h-full min-w-0 flex-col rounded-2xl border bg-raised/50 p-4 transition-colors hover:border-border-active ${accent}`}
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.subtitle}</div>
+        <div className="min-w-0 truncate font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{c.subtitle}</div>
         <DataStatusBadge status="simulated" at={c.updatedAt} />
       </div>
       <h3 className="mt-2 text-sm font-medium leading-snug">{c.title}</h3>
