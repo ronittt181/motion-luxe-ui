@@ -20,7 +20,10 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAlertsRouteImport } from './routes/app/alerts'
 import { Route as AppIntelligenceRouteImport } from './routes/app/intelligence'
 import { Route as AppMarketsRouteImport } from './routes/app/markets'
+import { Route as AppPortfolioRouteImport } from './routes/app/portfolio'
 import { Route as AppScreenerRouteImport } from './routes/app/screener'
+import { Route as AppSettingsRouteImport } from './routes/app/settings'
+import { Route as AppTradeRouteImport } from './routes/app/trade'
 import { Route as AppWatchlistRouteImport } from './routes/app/watchlist'
 import { Route as AppAnalyzeIndexRouteImport } from './routes/app/analyze/index'
 import { Route as AppAnalyzeSymbolRouteImport } from './routes/app/analyze/$symbol'
@@ -80,9 +83,24 @@ const AppMarketsRoute = AppMarketsRouteImport.update({
   path: '/app/markets',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppPortfolioRoute = AppPortfolioRouteImport.update({
+  id: '/app/portfolio',
+  path: '/app/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppScreenerRoute = AppScreenerRouteImport.update({
   id: '/app/screener',
   path: '/app/screener',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/app/settings',
+  path: '/app/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppTradeRoute = AppTradeRouteImport.update({
+  id: '/app/trade',
+  path: '/app/trade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppWatchlistRoute = AppWatchlistRouteImport.update({
@@ -112,7 +130,10 @@ export interface FileRoutesByFullPath {
   '/app/alerts': typeof AppAlertsRoute
   '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/portfolio': typeof AppPortfolioRoute
   '/app/screener': typeof AppScreenerRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/trade': typeof AppTradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -129,7 +150,10 @@ export interface FileRoutesByTo {
   '/app/alerts': typeof AppAlertsRoute
   '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/portfolio': typeof AppPortfolioRoute
   '/app/screener': typeof AppScreenerRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/trade': typeof AppTradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -147,7 +171,10 @@ export interface FileRoutesById {
   '/app/alerts': typeof AppAlertsRoute
   '/app/intelligence': typeof AppIntelligenceRoute
   '/app/markets': typeof AppMarketsRoute
+  '/app/portfolio': typeof AppPortfolioRoute
   '/app/screener': typeof AppScreenerRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/trade': typeof AppTradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
@@ -166,7 +193,10 @@ export interface FileRouteTypes {
     | '/app/alerts'
     | '/app/intelligence'
     | '/app/markets'
+    | '/app/portfolio'
     | '/app/screener'
+    | '/app/settings'
+    | '/app/trade'
     | '/app/watchlist'
     | '/app/'
     | '/app/analyze/$symbol'
@@ -183,7 +213,10 @@ export interface FileRouteTypes {
     | '/app/alerts'
     | '/app/intelligence'
     | '/app/markets'
+    | '/app/portfolio'
     | '/app/screener'
+    | '/app/settings'
+    | '/app/trade'
     | '/app/watchlist'
     | '/app'
     | '/app/analyze/$symbol'
@@ -200,7 +233,10 @@ export interface FileRouteTypes {
     | '/app/alerts'
     | '/app/intelligence'
     | '/app/markets'
+    | '/app/portfolio'
     | '/app/screener'
+    | '/app/settings'
+    | '/app/trade'
     | '/app/watchlist'
     | '/app/'
     | '/app/analyze/$symbol'
@@ -218,7 +254,10 @@ export interface RootRouteChildren {
   AppAlertsRoute: typeof AppAlertsRoute
   AppIntelligenceRoute: typeof AppIntelligenceRoute
   AppMarketsRoute: typeof AppMarketsRoute
+  AppPortfolioRoute: typeof AppPortfolioRoute
   AppScreenerRoute: typeof AppScreenerRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppTradeRoute: typeof AppTradeRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAnalyzeSymbolRoute: typeof AppAnalyzeSymbolRoute
@@ -304,11 +343,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMarketsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/portfolio': {
+      id: '/app/portfolio'
+      path: '/app/portfolio'
+      fullPath: '/app/portfolio'
+      preLoaderRoute: typeof AppPortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/screener': {
       id: '/app/screener'
       path: '/app/screener'
       fullPath: '/app/screener'
       preLoaderRoute: typeof AppScreenerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/app/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/trade': {
+      id: '/app/trade'
+      path: '/app/trade'
+      fullPath: '/app/trade'
+      preLoaderRoute: typeof AppTradeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/watchlist': {
@@ -346,7 +406,10 @@ const rootRouteChildren: RootRouteChildren = {
   AppAlertsRoute: AppAlertsRoute,
   AppIntelligenceRoute: AppIntelligenceRoute,
   AppMarketsRoute: AppMarketsRoute,
+  AppPortfolioRoute: AppPortfolioRoute,
   AppScreenerRoute: AppScreenerRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppTradeRoute: AppTradeRoute,
   AppWatchlistRoute: AppWatchlistRoute,
   AppIndexRoute: AppIndexRoute,
   AppAnalyzeSymbolRoute: AppAnalyzeSymbolRoute,
