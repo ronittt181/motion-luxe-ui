@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 import { AuthLayout, Field } from "@/components/marketing/AuthLayout";
@@ -36,6 +36,10 @@ function SignupPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const router = useRouter();
+  useEffect(() => {
+    void router.preloadRoute({ to: "/app" });
+  }, [router]);
   const { login } = useStore();
   const s = useMemo(() => strength(form.password), [form.password]);
 
