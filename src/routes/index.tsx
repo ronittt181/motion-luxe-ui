@@ -197,7 +197,7 @@ function Landing() {
               </div>
 
               <div className="grid gap-4 p-4 lg:grid-cols-[1.65fr_1fr]">
-                <div className="rounded-2xl border border-border bg-raised/50 p-4">
+                <div className="flex flex-col rounded-2xl border border-border bg-raised/50 p-4">
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
@@ -214,7 +214,7 @@ function Landing() {
                     </div>
                   </div>
                   <PriceChart data={data} height={214} chartKey="hero" />
-                  <div className="mt-3 flex flex-wrap gap-1.5">
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
                     {[["RSI", "58.4"], ["MACD", "+3.1"], ["ATR", "42.8"], ["VWAP", "2,901"]].map(([k, v]) => (
                       <span key={k} className="rounded-lg border border-border bg-surface/60 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground">
                         {k} <span className="text-foreground">{v}</span>
@@ -226,7 +226,7 @@ function Landing() {
                 <div className="grid gap-4">
                   <div className="rounded-2xl border border-border bg-raised/50 p-4">
                     <div className="flex items-center gap-4">
-                      <ScoreRing score={78} size={104} />
+                      <ScoreRing score={78} size={104} label="Score" />
                       <div className="space-y-1">
                         <div className="text-sm font-medium">Constructive</div>
                         <p className="text-xs leading-relaxed text-muted-foreground">
