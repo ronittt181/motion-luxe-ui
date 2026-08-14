@@ -109,7 +109,7 @@ function Dashboard() {
       }
     >
       <div className="space-y-10">
-        <div className="grid gap-4 xl:grid-cols-[1.35fr_1fr]">
+        <div className="grid min-w-0 gap-4 xl:grid-cols-[1.35fr_1fr] [&>*]:min-w-0">
           <AIMarketBriefing holdings={holdings} watchlist={watchlist} />
           <div className="space-y-4">
             <MarketPulseMap />

@@ -37,7 +37,7 @@ export function AIMarketBriefing({ holdings, watchlist }: { holdings: string[]; 
   const b = useMemo(() => getBriefing(mode, { holdings, watchlist }), [mode, holdings, watchlist]);
 
   return (
-    <section aria-labelledby="briefing-title" className="panel hairline relative overflow-hidden p-5 md:p-7">
+    <section aria-labelledby="briefing-title" className="panel hairline relative min-w-0 overflow-hidden p-5 md:p-7">
       <div className="pointer-events-none absolute -left-24 -top-28 size-72 rounded-full opacity-40 blur-[90px]" style={{ background: "var(--gradient-signal, radial-gradient(circle,var(--mint),transparent))" }} />
       {ok && (
         <svg className="pointer-events-none absolute inset-x-0 top-0 h-24 w-full opacity-25" preserveAspectRatio="none" viewBox="0 0 400 100" aria-hidden>
