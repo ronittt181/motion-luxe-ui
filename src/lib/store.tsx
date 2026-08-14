@@ -117,11 +117,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           const idx = positions.findIndex((p) => p.symbol === symbol);
           if (side === "BUY") {
             if (idx >= 0) {
-              const p = positions[idx];
+              const p = positions[idx]!;
               positions[idx] = { ...p, qty: p.qty + qty, avg: (p.avg * p.qty + cost) / (p.qty + qty) };
             } else positions.push({ symbol, qty, avg: price });
           } else {
-            const p = positions[idx];
+            const p = positions[idx]!;
             if (p.qty === qty) positions.splice(idx, 1);
             else positions[idx] = { ...p, qty: p.qty - qty };
           }

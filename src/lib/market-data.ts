@@ -76,14 +76,14 @@ export const INDICES = [
   { symbol: "INDIA VIX", value: 13.42, changePct: -2.31 },
 ];
 
-export function getSymbol(s: string) {
-  return SYMBOLS.find((x) => x.symbol === s.toUpperCase());
+export function getSymbol(s: string): Symbol {
+  return SYMBOLS.find((x) => x.symbol === s.toUpperCase()) ?? SYMBOLS[0]!;
 }
 
 export type Candle = { t: string; close: number; sma: number; ema: number; volume: number };
 
 export function series(symbol: string, points = 90): Candle[] {
-  const sym = getSymbol(symbol) ?? SYMBOLS[0];
+  const sym = getSymbol(symbol);
   const r = rand(symbol.length * 97 + points);
   const out: Candle[] = [];
   let price = sym.price * 0.86;
@@ -103,7 +103,7 @@ export function series(symbol: string, points = 90): Candle[] {
       volume: Math.round(sym.volume * (0.5 + r())),
     });
   }
-  const factor = sym.price / out[out.length - 1].close;
+  const factor = sym.price / out[out.length - 1]!.close;
   return out.map((c) => ({ ...c, close: +(c.close * factor).toFixed(2), sma: +(c.sma * factor).toFixed(2), ema: +(c.ema * factor).toFixed(2) }));
 }
 

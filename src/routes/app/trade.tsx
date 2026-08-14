@@ -35,7 +35,7 @@ function Trade() {
 
   useEffect(() => { if (search.symbol) setSymbol(search.symbol); }, [search.symbol]);
 
-  const sym = getSymbol(symbol) ?? SYMBOLS[0];
+  const sym = getSymbol(symbol);
   const quantity = Number(qty) || 0;
   const value = quantity * sym.price;
   const held = positions.find((p) => p.symbol === symbol)?.qty ?? 0;

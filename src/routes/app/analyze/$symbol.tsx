@@ -25,7 +25,7 @@ export const Route = createFileRoute("/app/analyze/$symbol")({
 
 function Analyze() {
   const { symbol } = useParams({ from: "/app/analyze/$symbol" });
-  const sym = getSymbol(symbol) ?? SYMBOLS[0];
+  const sym = getSymbol(symbol);
   const [tf, setTf] = useState<Timeframe>("3M");
   const [sma, setSma] = useState(true);
   const [ema, setEma] = useState(false);

@@ -35,7 +35,10 @@ function Alerts() {
   const create = (e: React.FormEvent) => {
     e.preventDefault();
     const n = Number(value);
-    if (!n || n <= 0) return toast.error("Enter a threshold greater than zero.");
+    if (!n || n <= 0) {
+      toast.error("Enter a threshold greater than zero.");
+      return;
+    }
     addAlert({ symbol, type, condition, value: n });
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1600);
