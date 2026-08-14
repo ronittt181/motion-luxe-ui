@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MarketingPage } from "@/components/marketing/MarketingPage";
 import { Reveal } from "@/components/viz/Reveal";
+import { Spotlight } from "@/components/viz/Spotlight";
+import { Magnetic } from "@/components/viz/Magnetic";
 import { ScoreRing } from "@/components/viz/ScoreRing";
 import { SCORE_FACTORS, NEWS } from "@/lib/market-data";
 import { motion } from "motion/react";
@@ -26,16 +28,19 @@ function Intelligence() {
     >
       <div className="grid gap-3 lg:grid-cols-[380px_1fr]">
         <Reveal>
-          <div className="panel flex h-full flex-col items-center justify-center gap-5 p-8">
-            <ScoreRing score={74} size={190} />
-            <p className="max-w-xs text-center text-sm leading-relaxed text-muted-foreground">
-              A score above 65 leans constructive, 35–65 is mixed, below 35 leans defensive. Always read it alongside the factors.
-            </p>
-          </div>
+          <Spotlight className="panel relative h-full overflow-hidden rounded-2xl">
+            <div className="pointer-events-none absolute inset-0" style={{ background: "var(--gradient-hero)", opacity: 0.5 }} />
+            <div className="relative flex h-full flex-col items-center justify-center gap-6 p-8">
+              <ScoreRing score={74} size={190} />
+              <p className="max-w-xs text-center text-sm leading-relaxed text-muted-foreground">
+                A score above 65 leans constructive, 35–65 is mixed, below 35 leans defensive. Always read it alongside the factors.
+              </p>
+            </div>
+          </Spotlight>
         </Reveal>
         <Reveal delay={0.08} from="right">
-          <div className="panel h-full p-6">
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">Factor weights</div>
+          <div className="panel h-full p-6 md:p-7">
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-muted-foreground">Factor weights</div>
             <div className="mt-5 space-y-4">
               {SCORE_FACTORS.map((f, i) => (
                 <div key={f.key}>
@@ -61,11 +66,11 @@ function Intelligence() {
       </div>
 
       <Reveal delay={0.05}>
-        <div className="panel mt-3 p-6">
-          <div className="text-xs uppercase tracking-widest text-muted-foreground">Sentiment input · demo headlines</div>
+        <div className="panel mt-3 p-6 md:p-7">
+          <div className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-muted-foreground">Sentiment input · demo headlines</div>
           <div className="mt-4 divide-y divide-border">
             {NEWS.map((n) => (
-              <div key={n.title} className="flex items-center gap-4 py-3.5">
+              <div key={n.title} className="group flex items-center gap-4 rounded-lg py-3.5 transition-colors duration-300 hover:bg-accent/30">
                 <span
                   className={`rounded-full border px-2.5 py-0.5 text-[11px] capitalize ${
                     n.tone === "positive" ? "border-positive/30 bg-positive/10 text-positive"
@@ -84,14 +89,15 @@ function Intelligence() {
       </Reveal>
 
       <Reveal delay={0.05}>
-        <div className="panel mt-3 flex flex-wrap items-center justify-between gap-4 p-8">
-          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+        <div className="panel hairline relative mt-3 flex flex-wrap items-center justify-between gap-4 overflow-hidden p-8 md:p-10">
+          <div className="pointer-events-none absolute inset-0" style={{ background: "var(--gradient-hero)", opacity: 0.55 }} />
+          <p className="relative max-w-md text-sm leading-relaxed text-muted-foreground">
             Model outputs are probabilistic and informational. Quant Plus never promises returns and all trading in the
             product is virtual.
           </p>
-          <Link to="/app/intelligence" className="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]">
-            Open AI Intelligence
-          </Link>
+          <Magnetic className="relative">
+            <Link to="/app/intelligence" className="btn-primary btn-sheen">Open AI Intelligence</Link>
+          </Magnetic>
         </div>
       </Reveal>
     </MarketingPage>
