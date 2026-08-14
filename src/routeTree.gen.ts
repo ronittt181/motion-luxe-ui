@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as IntelligenceRouteImport } from './routes/intelligence'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppAlertsRouteImport } from './routes/app/alerts'
+import { Route as AppMarketsRouteImport } from './routes/app/markets'
+import { Route as AppWatchlistRouteImport } from './routes/app/watchlist'
+import { Route as AppAnalyzeIndexRouteImport } from './routes/app/analyze/index'
+import { Route as AppAnalyzeSymbolRouteImport } from './routes/app/analyze/$symbol'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntelligenceRoute = IntelligenceRouteImport.update({
+  id: '/intelligence',
+  path: '/intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/app/',
+  path: '/app/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAlertsRoute = AppAlertsRouteImport.update({
+  id: '/app/alerts',
+  path: '/app/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppMarketsRoute = AppMarketsRouteImport.update({
+  id: '/app/markets',
+  path: '/app/markets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppWatchlistRoute = AppWatchlistRouteImport.update({
+  id: '/app/watchlist',
+  path: '/app/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAnalyzeIndexRoute = AppAnalyzeIndexRouteImport.update({
+  id: '/app/analyze/',
+  path: '/app/analyze/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAnalyzeSymbolRoute = AppAnalyzeSymbolRouteImport.update({
+  id: '/app/analyze/$symbol',
+  path: '/app/analyze/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/features': typeof FeaturesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/markets': typeof AppMarketsRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app/': typeof AppIndexRoute
+  '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
+  '/app/analyze/': typeof AppAnalyzeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/features': typeof FeaturesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/markets': typeof AppMarketsRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app': typeof AppIndexRoute
+  '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
+  '/app/analyze': typeof AppAnalyzeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/features': typeof FeaturesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/app/alerts': typeof AppAlertsRoute
+  '/app/markets': typeof AppMarketsRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app/': typeof AppIndexRoute
+  '/app/analyze/$symbol': typeof AppAnalyzeSymbolRoute
+  '/app/analyze/': typeof AppAnalyzeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/features'
+    | '/forgot-password'
+    | '/how-it-works'
+    | '/intelligence'
+    | '/login'
+    | '/signup'
+    | '/app/alerts'
+    | '/app/markets'
+    | '/app/watchlist'
+    | '/app/'
+    | '/app/analyze/$symbol'
+    | '/app/analyze/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/features'
+    | '/forgot-password'
+    | '/how-it-works'
+    | '/intelligence'
+    | '/login'
+    | '/signup'
+    | '/app/alerts'
+    | '/app/markets'
+    | '/app/watchlist'
+    | '/app'
+    | '/app/analyze/$symbol'
+    | '/app/analyze'
+  id:
+    | '__root__'
+    | '/'
+    | '/features'
+    | '/forgot-password'
+    | '/how-it-works'
+    | '/intelligence'
+    | '/login'
+    | '/signup'
+    | '/app/alerts'
+    | '/app/markets'
+    | '/app/watchlist'
+    | '/app/'
+    | '/app/analyze/$symbol'
+    | '/app/analyze/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FeaturesRoute: typeof FeaturesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  IntelligenceRoute: typeof IntelligenceRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
+  AppAlertsRoute: typeof AppAlertsRoute
+  AppMarketsRoute: typeof AppMarketsRoute
+  AppWatchlistRoute: typeof AppWatchlistRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppAnalyzeSymbolRoute: typeof AppAnalyzeSymbolRoute
+  AppAnalyzeIndexRoute: typeof AppAnalyzeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intelligence': {
+      id: '/intelligence'
+      path: '/intelligence'
+      fullPath: '/intelligence'
+      preLoaderRoute: typeof IntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/app'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/alerts': {
+      id: '/app/alerts'
+      path: '/app/alerts'
+      fullPath: '/app/alerts'
+      preLoaderRoute: typeof AppAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/markets': {
+      id: '/app/markets'
+      path: '/app/markets'
+      fullPath: '/app/markets'
+      preLoaderRoute: typeof AppMarketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/watchlist': {
+      id: '/app/watchlist'
+      path: '/app/watchlist'
+      fullPath: '/app/watchlist'
+      preLoaderRoute: typeof AppWatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/analyze/': {
+      id: '/app/analyze/'
+      path: '/app/analyze'
+      fullPath: '/app/analyze/'
+      preLoaderRoute: typeof AppAnalyzeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/analyze/$symbol': {
+      id: '/app/analyze/$symbol'
+      path: '/app/analyze/$symbol'
+      fullPath: '/app/analyze/$symbol'
+      preLoaderRoute: typeof AppAnalyzeSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FeaturesRoute: FeaturesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  IntelligenceRoute: IntelligenceRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
+  AppAlertsRoute: AppAlertsRoute,
+  AppMarketsRoute: AppMarketsRoute,
+  AppWatchlistRoute: AppWatchlistRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppAnalyzeSymbolRoute: AppAnalyzeSymbolRoute,
+  AppAnalyzeIndexRoute: AppAnalyzeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
