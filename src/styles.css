@@ -36,6 +36,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-mint: var(--mint);
+  --color-gold: var(--mint);
+  --color-gold-soft: var(--signal);
   --color-signal: var(--signal);
   --color-violet: var(--ai-violet);
   --color-positive: var(--positive);
@@ -47,56 +49,56 @@
   --color-chart-3: var(--ai-violet);
   --color-chart-4: var(--warning);
   --color-chart-5: var(--negative);
-  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
-  --radius: 0.875rem;
-  --void: oklch(0.09 0.008 265);
-  --raised: oklch(0.145 0.011 262);
-  --surface: oklch(0.175 0.013 261);
-  --surface-elevated: oklch(0.215 0.015 261);
+  --radius: 0.75rem;
+  --void: oklch(0.145 0.002 95);
+  --raised: oklch(0.185 0.003 95);
+  --surface: oklch(0.205 0.004 92);
+  --surface-elevated: oklch(0.245 0.006 90);
   --background: var(--void);
-  --foreground: oklch(0.945 0.008 250);
+  --foreground: oklch(0.955 0.006 90);
   --card: var(--surface);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.165 0.013 262);
+  --popover: oklch(0.19 0.004 92);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.68 0.17 260);
-  --primary-foreground: oklch(0.98 0.005 250);
-  --secondary: oklch(0.23 0.015 261);
-  --secondary-foreground: oklch(0.95 0.006 250);
-  --muted: oklch(0.21 0.013 261);
-  --muted-foreground: oklch(0.68 0.014 253);
-  --accent: oklch(0.25 0.017 261);
-  --accent-foreground: oklch(0.96 0.005 250);
-  --destructive: oklch(0.68 0.17 17);
-  --destructive-foreground: oklch(0.16 0.014 265);
-  --border: oklch(1 0 0 / 8%);
-  --border-active: oklch(0.68 0.17 260 / 38%);
-  --input: oklch(1 0 0 / 11%);
-  --ring: oklch(0.68 0.17 260 / 50%);
-  --mint: oklch(0.72 0.155 258);
-  --signal: oklch(0.82 0.1 235);
-  --ai-violet: oklch(0.72 0.14 285);
-  --positive: oklch(0.8 0.14 165);
-  --negative: oklch(0.68 0.17 20);
-  --warning: oklch(0.85 0.12 85);
-  --neutral: oklch(0.66 0.018 250);
+  --primary: oklch(0.76 0.108 88);
+  --primary-foreground: oklch(0.16 0.01 90);
+  --secondary: oklch(0.24 0.005 92);
+  --secondary-foreground: oklch(0.95 0.006 90);
+  --muted: oklch(0.225 0.004 92);
+  --muted-foreground: oklch(0.71 0.012 88);
+  --accent: oklch(0.27 0.008 90);
+  --accent-foreground: oklch(0.96 0.006 90);
+  --destructive: oklch(0.63 0.16 25);
+  --destructive-foreground: oklch(0.97 0.006 90);
+  --border: oklch(0.85 0.04 90 / 12%);
+  --border-active: oklch(0.76 0.108 88 / 42%);
+  --input: oklch(0.85 0.04 90 / 15%);
+  --ring: oklch(0.76 0.108 88 / 45%);
+  --mint: oklch(0.76 0.108 88);
+  --signal: oklch(0.88 0.075 92);
+  --ai-violet: oklch(0.7 0.1 62);
+  --positive: oklch(0.78 0.115 158);
+  --negative: oklch(0.66 0.155 25);
+  --warning: oklch(0.84 0.1 82);
+  --neutral: oklch(0.68 0.012 90);
 
   --gradient-hero: radial-gradient(
       120% 90% at 50% 0%,
-      color-mix(in oklab, var(--mint) 14%, transparent) 0%,
-      transparent 60%
+      color-mix(in oklab, var(--mint) 11%, transparent) 0%,
+      transparent 62%
     ),
-    radial-gradient(90% 80% at 85% 8%, color-mix(in oklab, var(--signal) 10%, transparent) 0%, transparent 62%);
-  --gradient-signal: linear-gradient(120deg, var(--signal), var(--mint) 55%, var(--ai-violet));
+    radial-gradient(90% 80% at 85% 8%, color-mix(in oklab, var(--ai-violet) 8%, transparent) 0%, transparent 62%);
+  --gradient-signal: linear-gradient(120deg, var(--signal), var(--mint) 52%, var(--ai-violet));
   --shadow-soft: 0 1px 0 0 oklch(1 0 0 / 4%) inset, 0 1px 2px 0 oklch(0 0 0 / 55%), 0 24px 60px -34px oklch(0 0 0 / 95%);
   --shadow-lift: 0 1px 0 0 oklch(1 0 0 / 8%) inset, 0 2px 4px 0 oklch(0 0 0 / 55%),
-    0 40px 90px -32px oklch(0 0 0 / 98%), 0 0 0 1px color-mix(in oklab, var(--mint) 22%, transparent);
+    0 40px 90px -32px oklch(0 0 0 / 98%), 0 0 0 1px color-mix(in oklab, var(--mint) 26%, transparent);
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -115,9 +117,12 @@
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.045em;
-    font-weight: 500;
+    letter-spacing: -0.015em;
+    font-weight: 400;
     text-wrap: balance;
+  }
+  h1, h2 {
+    line-height: 1.04;
   }
   p {
     text-wrap: pretty;

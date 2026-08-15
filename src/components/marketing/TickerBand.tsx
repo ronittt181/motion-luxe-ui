@@ -21,7 +21,7 @@ export function TickerBand() {
               key={`${r}-${s.symbol}-${i}`}
               className="flex shrink-0 items-center gap-2.5 rounded-full border border-border bg-raised/50 px-4 py-2"
             >
-              <span className="font-display text-sm">{s.symbol}</span>
+              <span className="font-mono text-xs tracking-[0.08em]">{s.symbol}</span>
               <span className={`font-mono text-xs tabular ${s.changePct >= 0 ? "text-positive" : "text-negative"}`}>
                 {pct(s.changePct)}
               </span>
