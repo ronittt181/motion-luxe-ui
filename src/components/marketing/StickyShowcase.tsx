@@ -41,7 +41,7 @@ export function StickyShowcase() {
 
         <div ref={ref} className="mt-14 grid gap-8 lg:grid-cols-[1fr_1.05fr]">
           {/* steps */}
-          <div className="order-2 space-y-3 lg:order-1 lg:space-y-[26vh] lg:py-[24vh]">
+          <div className="order-2 space-y-3 lg:order-1 lg:space-y-[16vh] lg:py-[14vh]">
             {steps.map((s, i) => {
               const on = i === active;
               return (
