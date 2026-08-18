@@ -126,13 +126,7 @@ export function AppShell({ title, subtitle, children, action }: { title: string;
           </DropdownMenu>
         </header>
 
-        <motion.main
-          key={path}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto max-w-7xl px-4 pb-28 pt-6 md:px-6 md:pb-12"
-        >
+        <main className="mx-auto max-w-7xl px-4 pb-28 pt-6 md:px-6 md:pb-12">
           <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
             <div>
               <h1 className="font-display text-2xl md:text-[30px]">{title}</h1>
@@ -142,7 +136,7 @@ export function AppShell({ title, subtitle, children, action }: { title: string;
           </div>
           <div className="rule-glow mb-7 opacity-50" />
           {children}
-        </motion.main>
+        </main>
       </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-border bg-raised/85 px-2 py-2 backdrop-blur-2xl md:hidden">
@@ -158,18 +152,47 @@ export function AppShell({ title, subtitle, children, action }: { title: string;
       </nav>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search NSE symbols…" />
+        <CommandInput placeholder="Search symbols and pages…" />
         <CommandList>
-          <CommandEmpty>No symbol found.</CommandEmpty>
+          <CommandEmpty>
+            <div className="px-2 py-6 text-center">
+              <div className="font-display text-sm">Nothing matched</div>
+              <p className="mx-auto mt-1 max-w-xs text-xs text-muted-foreground">
+                Try an NSE ticker like RELIANCE, or a page name such as Screener.
+              </p>
+            </div>
+          </CommandEmpty>
+          {recent.length > 0 && (
+            <CommandGroup heading="Recent">
+              {recent.map((sym) => (
+                <CommandItem key={`recent-${sym}`} value={`recent ${sym}`} onSelect={() => go(sym)}>
+                  <Clock className="mr-2 size-3.5 text-muted-foreground" />
+                  <span className="font-medium">{sym}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+          <CommandGroup heading="Pages">
+            {nav.map((n) => (
+              <CommandItem
+                key={`page-${n.to}`}
+                value={`page ${n.label}`}
+                onSelect={() => {
+                  setOpen(false);
+                  navigate({ to: n.to });
+                }}
+              >
+                <n.icon className="mr-2 size-3.5 text-muted-foreground" />
+                {n.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
           <CommandGroup heading="Symbols">
             {SYMBOLS.map((s) => (
               <CommandItem
                 key={s.symbol}
                 value={`${s.symbol} ${s.name}`}
-                onSelect={() => {
-                  setOpen(false);
-                  navigate({ to: "/app/analyze/$symbol", params: { symbol: s.symbol } });
-                }}
+                onSelect={() => go(s.symbol)}
               >
                 <span className="font-medium">{s.symbol}</span>
                 <span className="ml-2 truncate text-muted-foreground">{s.name}</span>
