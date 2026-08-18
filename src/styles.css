@@ -149,9 +149,6 @@
   .tabular, table, .num {
     font-variant-numeric: tabular-nums;
   }
-  p, li {
-    max-inline-size: var(--measure);
-  }
   :focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--void), 0 0 0 4px color-mix(in oklab, var(--mint) 70%, transparent);

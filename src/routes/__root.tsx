@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { StoreProvider } from "../lib/store";
 import { Toaster } from "../components/ui/sonner";
+import { PageTransition, RouteProgress } from "../components/viz/PageTransition";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -128,8 +129,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
+        <RouteProgress />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
         <Toaster position="top-right" />
       </StoreProvider>
     </QueryClientProvider>

@@ -34,7 +34,7 @@ export function PriceChart({
                 <stop offset="100%" stopColor={stroke} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="var(--border)" vertical={false} />
+            <CartesianGrid stroke="var(--border)" vertical={false} strokeDasharray="3 6" />
             <XAxis dataKey="t" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} tickLine={false} axisLine={false} minTickGap={28} />
             <YAxis
               domain={["auto", "auto"]}
@@ -44,11 +44,14 @@ export function PriceChart({
               width={58}
             />
             <Tooltip
+              cursor={{ stroke: "var(--border-active)", strokeWidth: 1, strokeDasharray: "3 4" }}
               contentStyle={{
                 background: "var(--popover)",
                 border: "1px solid var(--border-active)",
                 borderRadius: 12,
                 fontSize: 12,
+                boxShadow: "var(--shadow-soft)",
+                fontVariantNumeric: "tabular-nums",
               }}
               labelStyle={{ color: "var(--muted-foreground)" }}
             />
