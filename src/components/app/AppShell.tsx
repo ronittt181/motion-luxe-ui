@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity, BarChart3, Bell, Brain, Briefcase, ChevronLeft, Filter, LayoutDashboard,
-  LineChart, Search, Settings, Star, User2, LogOut,
+  LineChart, Search, Settings, Star, User2, LogOut, Clock,
 } from "lucide-react";
 import { Logo } from "@/components/viz/Logo";
 import { useStore } from "@/lib/store";
@@ -30,6 +30,7 @@ const nav = [
 export function AppShell({ title, subtitle, children, action }: { title: string; subtitle?: string; children: ReactNode; action?: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
+  const [recent, setRecent] = useState<string[]>([]);
   const navigate = useNavigate();
   const { user, logout } = useStore();
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -44,6 +45,29 @@ export function AppShell({ title, subtitle, children, action }: { title: string;
     document.addEventListener("keydown", h);
     return () => document.removeEventListener("keydown", h);
   }, []);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("qp:recent-symbols");
+      if (raw) setRecent(JSON.parse(raw) as string[]);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const go = (symbol: string) => {
+    setOpen(false);
+    setRecent((prev) => {
+      const next = [symbol, ...prev.filter((s) => s !== symbol)].slice(0, 4);
+      try {
+        localStorage.setItem("qp:recent-symbols", JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+    navigate({ to: "/app/analyze/$symbol", params: { symbol } });
+  };
 
   return (
     <div className="noise min-h-screen bg-void">
