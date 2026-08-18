@@ -237,7 +237,7 @@ function Trade() {
   );
 }
 
-function Row({ k, v, tone }: { k: string; v: string; tone?: "negative" }) {
+function Row({ k, v, tone }: { k: string; v: string; tone?: "negative" | undefined }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-muted-foreground">{k}</span>

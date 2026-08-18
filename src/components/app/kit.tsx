@@ -50,10 +50,10 @@ export function KpiTile({
 }: {
   label: string;
   value: ReactNode;
-  delta?: number;
+  delta?: number | undefined;
   sub?: ReactNode;
-  tone?: "positive" | "negative";
-  delay?: number;
+  tone?: "positive" | "negative" | undefined;
+  delay?: number | undefined;
 }) {
   return (
     <motion.div
