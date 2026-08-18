@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { BellRing, Check, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/app/AppShell";
-import { SYMBOLS } from "@/lib/market-data";
+import { Bar, EmptyState, KpiTile, Panel, Segmented } from "@/components/app/kit";
+import { SYMBOLS, getSymbol, inr } from "@/lib/market-data";
 import { useStore, type Alert } from "@/lib/store";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -14,15 +15,30 @@ export const Route = createFileRoute("/app/alerts")({
   head: () => ({
     meta: [
       { title: "Alerts — Quant Plus" },
-      { name: "description", content: "Create native price, indicator, score, sentiment and unusual-volume alerts inside Quant Plus." },
+      { name: "description", content: "Create price, indicator, score, sentiment and unusual-volume alerts and track distance to trigger." },
       { property: "og:title", content: "Alerts — Quant Plus" },
-      { property: "og:description", content: "Native alerts for price, score, indicators, sentiment and volume." },
+      { property: "og:description", content: "Native alerts with live distance-to-trigger tracking." },
     ],
   }),
   component: Alerts,
 });
 
 const types: Alert["type"][] = ["Price", "Quant Score", "RSI", "Sentiment", "Unusual volume"];
+const TABS = [{ value: "active", label: "Active" }, { value: "triggered", label: "Triggered" }, { value: "paused", label: "Paused" }] as const;
+
+function currentValue(a: Alert) {
+  const s = getSymbol(a.symbol);
+  if (a.type === "Price") return s.price;
+  if (a.type === "Quant Score") return s.quantScore;
+  if (a.type === "RSI") return s.rsi;
+  if (a.type === "Sentiment") return s.sentiment.positive;
+  return Math.round(s.volume / 100000);
+}
+
+function isTriggered(a: Alert) {
+  const v = currentValue(a);
+  return a.condition === "above" ? v >= a.value : v <= a.value;
+}
 
 function Alerts() {
   const { alerts, addAlert, removeAlert, toggleAlert } = useStore();
@@ -30,102 +46,123 @@ function Alerts() {
   const [type, setType] = useState<Alert["type"]>("Price");
   const [condition, setCondition] = useState<"above" | "below">("above");
   const [value, setValue] = useState("3000");
-  const [justAdded, setJustAdded] = useState(false);
+  const [tab, setTab] = useState<(typeof TABS)[number]["value"]>("active");
+
+  const enriched = useMemo(
+    () => alerts.map((a) => ({ a, current: currentValue(a), triggered: isTriggered(a) })),
+    [alerts],
+  );
+
+  const shown = enriched.filter(({ a, triggered }) =>
+    tab === "paused" ? !a.active : tab === "triggered" ? a.active && triggered : a.active && !triggered,
+  );
 
   const create = (e: React.FormEvent) => {
     e.preventDefault();
     const n = Number(value);
-    if (!n || n <= 0) {
-      toast.error("Enter a threshold greater than zero.");
-      return;
-    }
+    if (!n || n <= 0) { toast.error("Enter a threshold greater than zero."); return; }
     addAlert({ symbol, type, condition, value: n });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1600);
     toast.success(`Alert armed: ${symbol} ${type.toLowerCase()} ${condition} ${n}.`);
   };
 
+  const activeCount = enriched.filter((e) => e.a.active && !e.triggered).length;
+  const triggeredCount = enriched.filter((e) => e.a.active && e.triggered).length;
+
   return (
     <AppShell title="Alerts" subtitle="Native alerts across price, score, indicators, sentiment and volume.">
-      <div className="grid gap-3 lg:grid-cols-[380px_1fr]">
-        <form onSubmit={create} className="panel h-fit space-y-4 p-5">
-          <div className="font-display text-lg">New alert</div>
-          <div className="space-y-1.5">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground">Symbol</span>
-            <Select value={symbol} onValueChange={setSymbol}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{SYMBOLS.map((s) => <SelectItem key={s.symbol} value={s.symbol}>{s.symbol}</SelectItem>)}</SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground">Trigger</span>
-            <Select value={type} onValueChange={(v) => setType(v as Alert["type"])}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{types.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
-            </Select>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <KpiTile label="Armed" value={activeCount} />
+          <KpiTile label="Triggered" value={triggeredCount} tone={triggeredCount ? "positive" : undefined} delay={0.04} />
+          <KpiTile label="Paused" value={enriched.filter((e) => !e.a.active).length} delay={0.08} />
+        </div>
+
+        <div className="grid min-w-0 gap-3 lg:grid-cols-[360px_minmax(0,1fr)]">
+          <form onSubmit={create} className="panel h-fit space-y-4 p-5">
+            <div className="font-display text-base">New alert</div>
             <div className="space-y-1.5">
-              <span className="text-xs uppercase tracking-widest text-muted-foreground">Condition</span>
-              <Select value={condition} onValueChange={(v) => setCondition(v as "above" | "below")}>
+              <span className="t-label text-muted-foreground">Symbol</span>
+              <Select value={symbol} onValueChange={setSymbol}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent><SelectItem value="above">Above</SelectItem><SelectItem value="below">Below</SelectItem></SelectContent>
+                <SelectContent>{SYMBOLS.map((s) => <SelectItem key={s.symbol} value={s.symbol}>{s.symbol}</SelectItem>)}</SelectContent>
+              </Select>
+              <p className="pt-1 text-[11px] text-muted-foreground tabular">Last {inr(getSymbol(symbol).price)} · Score {getSymbol(symbol).quantScore} · RSI {getSymbol(symbol).rsi}</p>
+            </div>
+            <div className="space-y-1.5">
+              <span className="t-label text-muted-foreground">Trigger</span>
+              <Select value={type} onValueChange={(v) => setType(v as Alert["type"])}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>{types.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
               </Select>
             </div>
-            <div className="space-y-1.5">
-              <span className="text-xs uppercase tracking-widest text-muted-foreground">Threshold</span>
-              <Input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <span className="t-label text-muted-foreground">Condition</span>
+                <Select value={condition} onValueChange={(v) => setCondition(v as "above" | "below")}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent><SelectItem value="above">Above</SelectItem><SelectItem value="below">Below</SelectItem></SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <span className="t-label text-muted-foreground">Threshold</span>
+                <Input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" />
+              </div>
             </div>
-          </div>
-          <button className="relative w-full overflow-hidden rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.01]">
-            <AnimatePresence mode="wait">
-              {justAdded ? (
-                <motion.span key="ok" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="flex items-center justify-center gap-2">
-                  <Check className="size-4" /> Alert armed
-                </motion.span>
+            <button className="btn-primary w-full py-2.5 text-sm">Arm alert</button>
+            <p className="text-[11px] leading-relaxed text-muted-foreground">
+              Alerts evaluate against demo market data in this build — nothing is sent externally.
+            </p>
+          </form>
+
+          <Panel
+            title="Your alerts"
+            flush
+            action={<Segmented id="alert-tabs" size="xs" value={tab} onChange={setTab} options={TABS} />}
+          >
+            <AnimatePresence mode="popLayout">
+              {shown.length ? (
+                <div className="divide-y divide-border">
+                  {shown.map(({ a, current, triggered }) => {
+                    const distance = a.value === 0 ? 0 : Math.min(100, (Math.min(current, a.value) / Math.max(current, a.value)) * 100);
+                    return (
+                      <motion.div key={a.id} layout initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: -8 }} className="px-4 py-4">
+                        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{a.symbol}</span>
+                              {triggered && a.active && (
+                                <span className="flex items-center gap-1 rounded-full border border-positive/30 bg-positive/10 px-2 py-0.5 text-[11px] text-positive">
+                                  <Check className="size-3" /> Triggered
+                                </span>
+                              )}
+                            </div>
+                            <div className="mt-0.5 text-xs text-muted-foreground">
+                              {a.type} {a.condition} <span className="tabular text-foreground">{a.value}</span> · now <span className="tabular">{typeof current === "number" ? current.toFixed(2) : current}</span>
+                            </div>
+                          </div>
+                          <div className="flex shrink-0 items-center gap-2">
+                            <Switch checked={a.active} onCheckedChange={() => toggleAlert(a.id)} aria-label="Toggle alert" />
+                            <button onClick={() => { removeAlert(a.id); toast("Alert removed."); }} className="rounded-lg border border-border p-1.5 text-muted-foreground transition-colors hover:border-negative/40 hover:text-negative" aria-label="Delete alert">
+                              <Trash2 className="size-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="mt-3">
+                          <div className="mb-1 flex justify-between text-[11px] text-muted-foreground">
+                            <span>Distance to trigger</span>
+                            <span className="tabular">{Math.round(100 - distance)}%</span>
+                          </div>
+                          <Bar value={distance} tone={triggered ? "positive" : "signal"} />
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               ) : (
-                <motion.span key="idle" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="block">
-                  Create alert
-                </motion.span>
+                <EmptyState key="empty" icon={<BellRing className="size-6" />} title={`No ${tab} alerts`} body="Arm an alert from the form to watch a level, score or indicator." />
               )}
             </AnimatePresence>
-          </button>
-        </form>
-
-        <div className="panel overflow-hidden">
-          <div className="border-b border-border px-4 py-3 text-sm font-medium">Active alerts</div>
-          <AnimatePresence initial={false}>
-            {alerts.length === 0 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid place-items-center gap-2 p-14 text-center">
-                <BellRing className="size-6 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">No alerts yet. Arm one on the left.</p>
-              </motion.div>
-            )}
-            {alerts.map((a) => (
-              <motion.div
-                key={a.id}
-                layout
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 12, height: 0 }}
-                className="flex items-center gap-4 border-b border-border px-4 py-3.5 last:border-0"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium">{a.symbol}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {a.type} {a.condition} <span className="tabular">{a.value}</span>
-                  </div>
-                </div>
-                <span className={`rounded-full border px-2.5 py-0.5 text-[11px] ${a.active ? "border-mint/30 bg-mint/10 text-mint" : "border-border text-muted-foreground"}`}>
-                  {a.active ? "Armed" : "Paused"}
-                </span>
-                <Switch checked={a.active} onCheckedChange={() => toggleAlert(a.id)} />
-                <button onClick={() => { removeAlert(a.id); toast("Alert removed."); }} className="text-muted-foreground hover:text-negative" aria-label="Delete alert">
-                  <Trash2 className="size-4" />
-                </button>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          </Panel>
         </div>
       </div>
     </AppShell>
