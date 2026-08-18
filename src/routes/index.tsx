@@ -138,13 +138,13 @@ function Landing() {
               <span className="font-mono text-[0.65rem] tracking-normal text-foreground/80">NSE · BSE</span>
             </motion.div>
 
-            <h1 className="mt-7 max-w-4xl font-display text-[clamp(2.7rem,7.4vw,5.4rem)] font-medium leading-[0.98]">
-              <span className="block overflow-hidden">
+            <h1 className="mt-7 max-w-4xl font-display text-[clamp(2.7rem,7.4vw,5.4rem)] font-medium leading-[1.04]">
+              <span className="block overflow-hidden pb-[0.14em]">
                 <motion.span className="block" initial={{ y: "112%" }} animate={{ y: 0 }} transition={{ duration: 1.1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
                   Make sense of
                 </motion.span>
               </span>
-              <span className="block overflow-hidden">
+              <span className="-mt-[0.14em] block overflow-hidden pb-[0.14em]">
                 <motion.span className="block" initial={{ y: "112%" }} animate={{ y: 0 }} transition={{ duration: 1.1, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}>
                   every <span className="font-serif-accent text-gradient">market move.</span>
                 </motion.span>
