@@ -11,7 +11,7 @@ export function Sparkline({ data, positive = true, width = 96, height = 32 }: { 
   });
   const d = data.map((v, i) => `${i === 0 ? "M" : "L"}${pt(v, i).x},${pt(v, i).y}`).join(" ");
   const color = positive ? "var(--positive)" : "var(--negative)";
-  const last = pt(data[data.length - 1], data.length - 1);
+  const last = pt(data[data.length - 1] ?? min, data.length - 1);
   const hiIdx = data.indexOf(max);
   const loIdx = data.indexOf(min);
   const hi = pt(max, hiIdx);
