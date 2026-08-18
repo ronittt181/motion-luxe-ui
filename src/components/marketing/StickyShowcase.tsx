@@ -20,9 +20,10 @@ const steps = [
 export function StickyShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 60%", "end end"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   useMotionValueEvent(scrollYProgress, "change", (p) => {
-    setActive(Math.min(steps.length - 1, Math.max(0, Math.floor(p * steps.length))));
+    const next = Math.min(steps.length - 1, Math.max(0, Math.floor(p * steps.length * 0.999)));
+    setActive((prev) => (prev === next ? prev : next));
   });
 
   const sym = SYMBOLS[active % SYMBOLS.length]!;
@@ -40,7 +41,7 @@ export function StickyShowcase() {
 
         <div ref={ref} className="mt-14 grid gap-8 lg:grid-cols-[1fr_1.05fr]">
           {/* steps */}
-          <div className="order-2 space-y-3 lg:order-1">
+          <div className="order-2 space-y-3 lg:order-1 lg:space-y-[16vh] lg:py-[14vh]">
             {steps.map((s, i) => {
               const on = i === active;
               return (
@@ -77,7 +78,7 @@ export function StickyShowcase() {
 
           {/* sticky visual */}
           <div className="order-1 lg:order-2">
-            <div className="panel hairline sticky top-28 overflow-hidden rounded-3xl p-5">
+            <div className="panel hairline overflow-hidden rounded-3xl p-5 lg:sticky lg:top-[calc(50vh-15rem)]">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="font-display text-base">{sym.symbol}</div>
